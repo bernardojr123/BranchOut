@@ -1,7 +1,9 @@
-package com.example.bernardojr.branchout;
+package com.example.bernardojr.branchout.gui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.bernardojr.branchout.R;
 
 public class HomeActivity extends AppCompatActivity {
 
