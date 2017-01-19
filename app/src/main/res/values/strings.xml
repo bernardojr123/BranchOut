@@ -1,3 +1,40 @@
 <resources>
     <string name="app_name">BranchOut</string>
+
+
+    <!--Cadastro Activity-->
+    <string name="cadastro_activity_label">Cadastro</string>
+    <string name="cadastro_activity_btn_cadastrar">Cadastrar</string>
+    <string name="cadastro_activity_nome">Nome: </string>
+    <string name="cadastro_activity_email">Email: </string>
+    <string name="cadastro_activity_senha">Senha: </string>
+    <string name="cadastro_activity_repetir_senha">Repita a senha: </string>
+    <string name="cadastro_activity_data_nascimento">Data de Nascimento: </string>
+    <string name="cadastro_activity_descricao">Descrição: </string>
+    <string name="cadastro_activity_meios_de_contato">Meios de contato: </string>
+    <string name="cadastro_activity_hint_nome">Maria do Carmo</string>
+    <string name="cadastro_activity_hint_email">contato@branchout.com</string>
+    <string name="cadastro_activity_hint_senha">*******</string>
+    <string name="cadastro_activity_hint_repetir_senha">*******</string>
+    <string name="cadastro_activity_hint_data_nascimento">14/09/1994</string>
+    <string name="cadastro_activity_hint_descricao">não sei o que colocar</string>
+    <string name="cadastro_activity_hint_meios_de_contato">Whatsapp: (81) 99999-9999,
+                                                            Email: contato@branchout.com</string>
+    <string name="cadastro_activity_email_invalido">Email inválido!</string>
+    <string name="cadastro_activity_senha_invalida">Senha Inválida!</string>
+    <string name="cadastro_activity_nome_vazio">Nome obrigatório!</string>
+    <string name="cadastro_activity_email_vazio">Email obrigatório!</string>
+    <string name="cadastro_activity_senha_vazia">Senha obrigatória!</string>
+    <string name="cadastro_activity_repetir_senha_vazia">Repita sua senha!</string>
+    <string name="cadastro_activity_data_nascimento_vazia">Data de Nascimento obrigatória!</string>
+    <string name="cadastro_activity_descricao_vazia">Descrição obrigatória!</string>
+    <string name="cadastro_activity_meios_de_contato_vazio">Contato obrigatório!</string>
+    <string name="cadastro_activity_senhas_nao_correspondem">Senhas não batem!</string>
+    <string name="cadastro_activity_nome_curto">Nome com menos de 4 letras!</string>
+    <string name="cadastro_activity_meio_contato_curto">Meio(s) de contato muito curto!</string>
+    <string name="cadastro_activity_descricao_curta">Descrição muito curta!</string>
 </resources>
+
+
+
+
