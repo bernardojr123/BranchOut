@@ -1,7 +1,7 @@
 package com.example.bernardojr.branchout.gui;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
 
@@ -33,6 +35,7 @@ public class CadastroActivity extends AppCompatActivity {
     private String email;
     private String senha;
     private String repetirSenha;
+    private String dataN;
     private Date dataNascimento;
     private String meiosContato;
     private String descricao;
@@ -50,6 +53,7 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
+        resources = this.getResources();
         initViews();
         final Calendar calendar = Calendar.getInstance();
         ano = calendar.get(Calendar.YEAR);
@@ -62,11 +66,13 @@ public class CadastroActivity extends AppCompatActivity {
                 escolherDataNascimento();
             }
         });
-
+        final Context context = this.getApplicationContext();
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validarCampos();
+                if (validarCampos() == true){
+                    Toast.makeText(context,"foi",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -80,7 +86,6 @@ public class CadastroActivity extends AppCompatActivity {
         edtMeiosContato = (EditText) findViewById(R.id.cadastro_activity_meios_contato);
         edtDescricao = (EditText) findViewById(R.id.cadastro_activity_descricao);
         btnCadastrar = (Button) findViewById(R.id.cadastro_activity_btn_cadastrar);
-        edtDataNascimento.setFocusable(false);
     }
 
     private boolean validaCamposVazios(String nome, String email, String senha, String reSenha,
@@ -88,33 +93,33 @@ public class CadastroActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(nome)) {
             edtNome.requestFocus();
             edtNome.setError(resources.getString(R.string.cadastro_activity_nome_vazio));
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(email)){
             edtEmail.requestFocus();
             edtEmail.setError(resources.getString(R.string.cadastro_activity_email_vazio));
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(senha)) {
             edtSenha.requestFocus();
             edtSenha.setError(resources.getString(R.string.cadastro_activity_senha_vazia));
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(reSenha)) {
             edtRepetirSenha.requestFocus();
             edtRepetirSenha.setError(resources.getString(R.string.cadastro_activity_repetir_senha_vazia));
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(dataNasc)) {
             edtDataNascimento.requestFocus();
             edtDataNascimento.setError(resources.getString(R.string.cadastro_activity_data_nascimento_vazia));
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(meioContato)) {
             edtMeiosContato.requestFocus();
             edtMeiosContato.setError(resources.getString(R.string.cadastro_activity_meios_de_contato_vazio));
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(descricao)) {
             edtDescricao.requestFocus();
             edtDescricao.setError(resources.getString(R.string.cadastro_activity_descricao_vazia));
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void escolherDataNascimento(){
@@ -135,8 +140,10 @@ public class CadastroActivity extends AppCompatActivity {
         try {
             dataNascimento = formatter.parse(edtDataNascimento.getText().toString());
         } catch (ParseException e) {
+            //tratar esse erro
             e.printStackTrace();
         }
+        dataN = edtDataNascimento.getText().toString();
         nome = edtNome.getText().toString();
         email = edtEmail.getText().toString().trim();
         senha = edtSenha.getText().toString();
@@ -144,14 +151,15 @@ public class CadastroActivity extends AppCompatActivity {
         meiosContato = edtMeiosContato.getText().toString();
         descricao = edtDescricao.getText().toString();
 
-        return (isValidEmail(email) && hasSizeValidCadastro(nome,senha,repetirSenha,
-                meiosContato,descricao) && hasNoSpaceCadastro(email,senha));
+        return (validaCamposVazios(nome,email,senha,repetirSenha,dataN,meiosContato,descricao) &&
+                validaEmail(email) && temTamanhoValido(nome,senha,repetirSenha,
+                meiosContato,descricao) && naoTemEspaco(email,senha));
 
 
     }
 
 
-    private boolean isValidEmail(CharSequence email) {
+    private boolean validaEmail(CharSequence email) {
         if (!(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())){
             edtEmail.requestFocus();
             edtEmail.setError(resources.getString(R.string.cadastro_activity_email_invalido));
@@ -160,8 +168,8 @@ public class CadastroActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean hasSizeValidCadastro(String nome, String senha, String reSenha,
-                                         String meioContato, String descricao) {
+    private boolean temTamanhoValido(String nome, String senha, String reSenha,
+                                     String meioContato, String descricao) {
 
         if (!(senha.equals(reSenha))){
             edtRepetirSenha.requestFocus();
@@ -171,30 +179,30 @@ public class CadastroActivity extends AppCompatActivity {
         if (!(nome.length() > 4)) {
             edtNome.requestFocus();
             edtNome.setError(resources.getString(R.string.cadastro_activity_nome_curto));
-            return true;
+            return false;
         } else if (!(meioContato.length() > 10)) {
             edtMeiosContato.requestFocus();
             edtMeiosContato.setError(resources.getString(R.string.cadastro_activity_meio_contato_curto));
-            return true;
+            return false;
         } else if (!(descricao.length() > 4)) {
             edtDescricao.requestFocus();
             edtDescricao.setError(resources.getString(R.string.cadastro_activity_descricao_curta));
-            return true;
+            return false;
         }
         return true;
     }
 
-    private boolean hasNoSpaceCadastro(String email, String senha) {
+    private boolean naoTemEspaco(String email, String senha) {
 
         if (email.indexOf(" ") != -1){
             edtEmail.requestFocus();
             edtEmail.setError(resources.getString(R.string.cadastro_activity_email_invalido));
-            return true;
+            return false;
         }else if (senha.indexOf(" ") != -1){
             edtSenha.requestFocus();
             edtSenha.setError(resources.getString(R.string.cadastro_activity_senha_invalida));
-            return true;
-        }return false;
+            return false;
+        }return true;
     }
 
 }

@@ -80,6 +80,7 @@
         android:id="@+id/cadastro_activity_data_nascimento"
         android:inputType="date"
         android:lines="1"
+        android:focusable="false"
         android:singleLine="true"/>
 
     <TextView
