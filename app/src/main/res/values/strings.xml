@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">BranchOut</string>
 
-
     <!--Cadastro Activity-->
     <string name="cadastro_activity_label">Cadastro</string>
     <string name="cadastro_activity_btn_cadastrar">Cadastrar</string>
@@ -33,6 +32,13 @@
     <string name="cadastro_activity_nome_curto">Nome com menos de 4 letras!</string>
     <string name="cadastro_activity_meio_contato_curto">Meio(s) de contato muito curto!</string>
     <string name="cadastro_activity_descricao_curta">Descrição muito curta!</string>
+
+
+    <!--Romero-->
+    <string name="fragment_perfil">Perfil</string>
+    <string name="fragment_usuarios">Usuários</string>
+    <string name="fragment_match">Match</string>
+
 </resources>
 
 
