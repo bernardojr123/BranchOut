@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">BranchOut</string>
 
     <!--Cadastro Activity-->
@@ -32,7 +32,17 @@
     <string name="cadastro_activity_nome_curto">Nome com menos de 4 letras!</string>
     <string name="cadastro_activity_meio_contato_curto">Meio(s) de contato muito curto!</string>
     <string name="cadastro_activity_descricao_curta">Descrição muito curta!</string>
-
+    <!--  Login Activity--> 
+    <string name="Login_activity_email">Usuário:</string> 
+    <string name="Login_activity_senha">Senha:</string> 
+    <string name="Login_activity_email_vazio">Email obrigatório!</string> 
+    <string name="Login_activity_senha_vazia">Senha obrigatória!</string> 
+    <string name="Login_activity_email_invalido">Email inválido!</string> 
+    <string name="Login_activity_senha_invalida">Senha Inválida!</string> 
+    <string name="Login_activity_hint_senha">*****</string> 
+    <string name="Login_activity_hint_email">fulano@branchout.com</string> 
+    <string name="Login_activity_btn_login">Login</string> 
+    <string name="Login_activity_senha_curta">Senha Curta!</string>
 
     <!--Romero-->
     <string name="fragment_perfil">Perfil</string>
