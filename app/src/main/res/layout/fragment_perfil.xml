@@ -1,20 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
     <LinearLayout
+        android:id="@+id/activity_cadastro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.example.bernardojr.branchout.gui.PerfilFragment">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/perfil_imgView"-->
-            <!--android:layout_width="@dimen/imagem_perfil_width"-->
-            <!--android:layout_height="@dimen/imagem_perfil_height"/>-->
-        <!--<EditText-->
-            <!--android:layout_width=""-->
-            <!--android:layout_height="" />-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@android:drawable/ic_menu_gallery"
+                android:id="@+id/cadastro_activity_img_foto"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+
+            <TextView
+                android:text="@string/cadastro_activity_escolher_foto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/cadastro_activity_img_foto"
+                android:id="@+id/cadastro_activity_txt_foto" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastro_activity_nome" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cadastro_activity_hint_nome"
+            android:id="@+id/cadastro_activity_nome"
+            android:lines="1"
+            android:singleLine="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastro_activity_email"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cadastro_activity_hint_email"
+            android:id="@+id/cadastro_activity_email"
+            android:lines="1"
+            android:singleLine="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastro_activity_senha"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cadastro_activity_hint_senha"
+            android:inputType="textPassword"
+            android:id="@+id/cadastro_activity_senha"
+            android:lines="1"
+            android:singleLine="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastro_activity_repetir_senha"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cadastro_activity_hint_repetir_senha"
+            android:inputType="textPassword"
+            android:id="@+id/cadastro_activity_repetir_senha"
+            android:lines="1"
+            android:singleLine="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastro_activity_data_nascimento"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cadastro_activity_hint_data_nascimento"
+            android:id="@+id/cadastro_activity_data_nascimento"
+            android:inputType="date"
+            android:lines="1"
+            android:focusable="false"
+            android:singleLine="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastro_activity_meios_de_contato"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cadastro_activity_hint_meios_de_contato"
+            android:id="@+id/cadastro_activity_meios_contato"
+            android:lines="1"
+            android:singleLine="true"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastro_activity_descricao"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cadastro_activity_hint_descricao"
+            android:id="@+id/cadastro_activity_descricao"
+            android:maxLines="4"/>
+
+        <Button
+            android:text="@string/cadastro_activity_btn_cadastrar"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/cadastro_activity_btn_cadastrar" />
+
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

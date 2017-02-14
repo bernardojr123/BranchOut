@@ -40,8 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validarCampos();
-
+                if (validarCampos()){
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                }
             }
         });
         cadastrar.setOnClickListener(new View.OnClickListener() {
@@ -71,25 +73,26 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(email)) {
             edtEmail.requestFocus();
             edtEmail.setError(resources.getString(R.string.Login_activity_email_vazio));
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(senha)) {
             edtSenha.requestFocus();
             edtSenha.setError(resources.getString(R.string.Login_activity_senha_vazia));
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private boolean validarCampos(){
         email = edtEmail.getText().toString().trim();
         senha = edtSenha.getText().toString();
 
-        return (ValidarEmail(email) && ValidarSenha(senha));
+        return (validaVazios(email,senha) &&
+                validarEmail(email) && validarSenha(senha));
 
 
     }
 
-    private boolean ValidarEmail(CharSequence email) {
+    private boolean validarEmail(CharSequence email) {
         if (!(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())){
             edtEmail.requestFocus();
             edtEmail.setError(resources.getString(R.string.Login_activity_email_invalido));
@@ -98,12 +101,12 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean ValidarSenha(String senha){
+    private boolean validarSenha(String senha){
 
-        if (!(senha.length() > 6)) {
+        if (senha.length() < 4) {
             edtSenha.requestFocus();
             edtSenha.setError(resources.getString(R.string.Login_activity_senha_curta));
-            return true;
+            return false;
         }
         return true;
     }

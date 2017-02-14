@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.example.bernardojr.branchout.R;
 import com.example.bernardojr.branchout.dominio.Usuario;
 
 import java.util.List;
@@ -22,14 +23,17 @@ public class UsuariosAdapter extends ArrayAdapter<Usuario> {
         super(context, 0, usuarios);
     }
 
-    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View listItemView = convertView;
-        if(listItemView == null)
-            listItemView = LayoutInflater.from(getContext()).inflate();
+        View listItemView;
+        if(convertView == null)
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item,null);
 
-        return null;
+        else {
+            listItemView = convertView;
+        }
+
+        return listItemView;
     }
 }

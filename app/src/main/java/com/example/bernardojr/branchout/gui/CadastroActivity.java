@@ -2,7 +2,10 @@ package com.example.bernardojr.branchout.gui;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +34,8 @@ public class CadastroActivity extends AppCompatActivity {
     private EditText edtMeiosContato;
     private EditText edtDescricao;
     private Button btnCadastrar;
+    private ImageView imgFoto;
+    private TextView txtFoto;
 
     private String nome;
     private String email;
@@ -48,6 +54,7 @@ public class CadastroActivity extends AppCompatActivity {
     private SimpleDateFormat formatter;
 
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +82,17 @@ public class CadastroActivity extends AppCompatActivity {
                 }
             }
         });
+        imgFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
     }
 
     private void initViews() {
+        txtFoto = (TextView) findViewById(R.id.cadastro_activity_txt_foto);
+        imgFoto = (ImageView) findViewById(R.id.cadastro_activity_img_foto);
         edtNome = (EditText) findViewById(R.id.cadastro_activity_nome);
         edtEmail = (EditText) findViewById(R.id.cadastro_activity_email);
         edtSenha = (EditText) findViewById(R.id.cadastro_activity_senha);
@@ -154,8 +169,22 @@ public class CadastroActivity extends AppCompatActivity {
         return (validaCamposVazios(nome,email,senha,repetirSenha,dataN,meiosContato,descricao) &&
                 validaEmail(email) && temTamanhoValido(nome,senha,repetirSenha,
                 meiosContato,descricao) && naoTemEspaco(email,senha));
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imgFoto.setImageBitmap(imageBitmap);
+        }
+    }
 
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
 

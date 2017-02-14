@@ -5,6 +5,7 @@
     <string name="cadastro_activity_label">Cadastro</string>
     <string name="cadastro_activity_btn_cadastrar">Cadastrar</string>
     <string name="cadastro_activity_nome">Nome: </string>
+    <string name="cadastro_activity_escolher_foto">Clique para tirar uma foto</string>
     <string name="cadastro_activity_email">Email: </string>
     <string name="cadastro_activity_senha">Senha: </string>
     <string name="cadastro_activity_repetir_senha">Repita a senha: </string>

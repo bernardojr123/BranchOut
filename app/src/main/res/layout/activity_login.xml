@@ -35,8 +35,7 @@
         android:hint="@string/Login_activity_hint_email"
         android:id="@+id/Login_activity_email"
         android:lines="1"
-        android:singleLine="true"
-        android:onClick="@string/Login_activity_hint_email" />
+        android:singleLine="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,7 +54,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="230dp"
+        android:gravity="center"
+        android:layout_gravity="end"
         android:text="Login"
         android:id="@+id/Login_activity_btn_login"/>
     <TextView
