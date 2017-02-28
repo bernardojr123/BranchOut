@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -60,12 +61,8 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
-        resources = this.getResources();
+
         initViews();
-        final Calendar calendar = Calendar.getInstance();
-        ano = calendar.get(Calendar.YEAR);
-        mes = calendar.get(Calendar.MONTH);
-        dia = calendar.get(Calendar.DAY_OF_MONTH);
 
         edtDataNascimento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +88,11 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        resources = this.getResources();
+        final Calendar calendar = Calendar.getInstance();
+        ano = calendar.get(Calendar.YEAR);
+        mes = calendar.get(Calendar.MONTH);
+        dia = calendar.get(Calendar.DAY_OF_MONTH);
         txtFoto = (TextView) findViewById(R.id.cadastro_activity_txt_foto);
         imgFoto = (ImageView) findViewById(R.id.cadastro_activity_img_foto);
         edtNome = (EditText) findViewById(R.id.cadastro_activity_nome);
@@ -107,31 +109,31 @@ public class CadastroActivity extends AppCompatActivity {
                                        String dataNasc, String meioContato, String descricao) {
         if (TextUtils.isEmpty(nome)) {
             edtNome.requestFocus();
-            edtNome.setError(resources.getString(R.string.cadastro_activity_nome_vazio));
+            edtNome.setError(resources.getString(R.string.erro_nome_vazio));
             return false;
         } else if (TextUtils.isEmpty(email)){
             edtEmail.requestFocus();
-            edtEmail.setError(resources.getString(R.string.cadastro_activity_email_vazio));
+            edtEmail.setError(resources.getString(R.string.erro_email_vazio));
             return false;
         } else if (TextUtils.isEmpty(senha)) {
             edtSenha.requestFocus();
-            edtSenha.setError(resources.getString(R.string.cadastro_activity_senha_vazia));
+            edtSenha.setError(resources.getString(R.string.erro_senha_vazia));
             return false;
         } else if (TextUtils.isEmpty(reSenha)) {
             edtRepetirSenha.requestFocus();
-            edtRepetirSenha.setError(resources.getString(R.string.cadastro_activity_repetir_senha_vazia));
+            edtRepetirSenha.setError(resources.getString(R.string.erro_repetir_senha_vazia));
             return false;
         } else if (TextUtils.isEmpty(dataNasc)) {
             edtDataNascimento.requestFocus();
-            edtDataNascimento.setError(resources.getString(R.string.cadastro_activity_data_nascimento_vazia));
+            edtDataNascimento.setError(resources.getString(R.string.erro_data_nascimento_vazia));
             return false;
         } else if (TextUtils.isEmpty(meioContato)) {
             edtMeiosContato.requestFocus();
-            edtMeiosContato.setError(resources.getString(R.string.cadastro_activity_meios_de_contato_vazio));
+            edtMeiosContato.setError(resources.getString(R.string.erro_meios_de_contato_vazio));
             return false;
         } else if (TextUtils.isEmpty(descricao)) {
             edtDescricao.requestFocus();
-            edtDescricao.setError(resources.getString(R.string.cadastro_activity_descricao_vazia));
+            edtDescricao.setError(resources.getString(R.string.erro_descricao_vazia));
             return false;
         }
         return true;
@@ -191,7 +193,7 @@ public class CadastroActivity extends AppCompatActivity {
     private boolean validaEmail(CharSequence email) {
         if (!(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())){
             edtEmail.requestFocus();
-            edtEmail.setError(resources.getString(R.string.cadastro_activity_email_invalido));
+            edtEmail.setError(resources.getString(R.string.erro_email_invalido));
             return false;
         }
         return true;
@@ -202,20 +204,20 @@ public class CadastroActivity extends AppCompatActivity {
 
         if (!(senha.equals(reSenha))){
             edtRepetirSenha.requestFocus();
-            edtRepetirSenha.setError(resources.getString(R.string.cadastro_activity_senhas_nao_correspondem));
+            edtRepetirSenha.setError(resources.getString(R.string.erro_senhas_nao_correspondem));
             return false;
         }
         if (!(nome.length() > 4)) {
             edtNome.requestFocus();
-            edtNome.setError(resources.getString(R.string.cadastro_activity_nome_curto));
+            edtNome.setError(resources.getString(R.string.erro_nome_curto));
             return false;
         } else if (!(meioContato.length() > 10)) {
             edtMeiosContato.requestFocus();
-            edtMeiosContato.setError(resources.getString(R.string.cadastro_activity_meio_contato_curto));
+            edtMeiosContato.setError(resources.getString(R.string.erro_meio_contato_curto));
             return false;
         } else if (!(descricao.length() > 4)) {
             edtDescricao.requestFocus();
-            edtDescricao.setError(resources.getString(R.string.cadastro_activity_descricao_curta));
+            edtDescricao.setError(resources.getString(R.string.erro_descricao_curta));
             return false;
         }
         return true;
@@ -223,13 +225,13 @@ public class CadastroActivity extends AppCompatActivity {
 
     private boolean naoTemEspaco(String email, String senha) {
 
-        if (email.indexOf(" ") != -1){
+        if (email.contains(" ")){
             edtEmail.requestFocus();
-            edtEmail.setError(resources.getString(R.string.cadastro_activity_email_invalido));
+            edtEmail.setError(resources.getString(R.string.erro_email_invalido));
             return false;
-        }else if (senha.indexOf(" ") != -1){
+        }else if (senha.contains(" ")){
             edtSenha.requestFocus();
-            edtSenha.setError(resources.getString(R.string.cadastro_activity_senha_invalida));
+            edtSenha.setError(resources.getString(R.string.erro_senha_invalida));
             return false;
         }return true;
     }

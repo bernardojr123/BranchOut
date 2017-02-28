@@ -1,7 +1,22 @@
 ﻿<resources>
     <string name="app_name">BranchOut</string>
 
-    <!--Cadastro Activity-->
+    <!-- Erros -->
+    <string name="erro_email_invalido">Email inválido!</string>
+    <string name="erro_senha_invalida">Senha Inválida!</string>
+    <string name="erro_nome_vazio">Nome obrigatório!</string>
+    <string name="erro_email_vazio">Email obrigatório!</string>
+    <string name="erro_senha_vazia">Senha obrigatória!</string>
+    <string name="erro_repetir_senha_vazia">Repita sua senha!</string>
+    <string name="erro_data_nascimento_vazia">Data de Nascimento obrigatória!</string>
+    <string name="erro_descricao_vazia">Descrição obrigatória!</string>
+    <string name="erro_meios_de_contato_vazio">Contato obrigatório!</string>
+    <string name="erro_senhas_nao_correspondem">Senhas não batem!</string>
+    <string name="erro_nome_curto">Nome com menos de 4 letras!</string>
+    <string name="erro_meio_contato_curto">Meio(s) de contato muito curto!</string>
+    <string name="erro_descricao_curta">Descrição muito curta!</string>
+
+    <!--  Cadastro Activity  -->
     <string name="cadastro_activity_label">Cadastro</string>
     <string name="cadastro_activity_btn_cadastrar">Cadastrar</string>
     <string name="cadastro_activity_nome">Nome: </string>
@@ -18,36 +33,32 @@
     <string name="cadastro_activity_hint_repetir_senha">*******</string>
     <string name="cadastro_activity_hint_data_nascimento">14/09/1994</string>
     <string name="cadastro_activity_hint_descricao">não sei o que colocar</string>
-    <string name="cadastro_activity_hint_meios_de_contato">Whatsapp: (81) 99999-9999,
-                                                            Email: contato@branchout.com</string>
-    <string name="cadastro_activity_email_invalido">Email inválido!</string>
-    <string name="cadastro_activity_senha_invalida">Senha Inválida!</string>
-    <string name="cadastro_activity_nome_vazio">Nome obrigatório!</string>
-    <string name="cadastro_activity_email_vazio">Email obrigatório!</string>
-    <string name="cadastro_activity_senha_vazia">Senha obrigatória!</string>
-    <string name="cadastro_activity_repetir_senha_vazia">Repita sua senha!</string>
-    <string name="cadastro_activity_data_nascimento_vazia">Data de Nascimento obrigatória!</string>
-    <string name="cadastro_activity_descricao_vazia">Descrição obrigatória!</string>
-    <string name="cadastro_activity_meios_de_contato_vazio">Contato obrigatório!</string>
-    <string name="cadastro_activity_senhas_nao_correspondem">Senhas não batem!</string>
-    <string name="cadastro_activity_nome_curto">Nome com menos de 4 letras!</string>
-    <string name="cadastro_activity_meio_contato_curto">Meio(s) de contato muito curto!</string>
-    <string name="cadastro_activity_descricao_curta">Descrição muito curta!</string>
-    <!--  Login Activity--> 
-    <string name="Login_activity_email">Usuário:</string> 
-    <string name="Login_activity_senha">Senha:</string> 
-    <string name="Login_activity_email_vazio">Email obrigatório!</string> 
-    <string name="Login_activity_senha_vazia">Senha obrigatória!</string> 
-    <string name="Login_activity_email_invalido">Email inválido!</string> 
-    <string name="Login_activity_senha_invalida">Senha Inválida!</string> 
-    <string name="Login_activity_hint_senha">*****</string> 
-    <string name="Login_activity_hint_email">fulano@branchout.com</string> 
-    <string name="Login_activity_btn_login">Login</string> 
-    <string name="Login_activity_senha_curta">Senha Curta!</string>
+    <string name="cadastro_activity_hint_meios_de_contato">Whatsapp:(81)99999-9999</string>
 
-    <!--Romero-->
+    <!--  Login Activity  -->
+    <string name="login_activity_email">Usuário:</string>
+    <string name="login_activity_senha">Senha:</string>
+    <string name="login_activity_email_vazio">Email obrigatório!</string>
+    <string name="login_activity_senha_vazia">Senha obrigatória!</string>
+    <string name="login_activity_email_invalido">Email inválido!</string>
+    <string name="login_activity_senha_invalida">Senha Inválida!</string>
+    <string name="login_activity_hint_senha">*****</string>
+    <string name="login_activity_nao_cadastro">Não é cadastrado? Cadastre-se já!</string>
+    <string name="login_acitivty_esquece_senha">Esqueceu a senha?</string>
+    <string name="login_activity_hint_email">fulano@branchout.com</string>
+    <string name="login_activity_btn_login">Login</string>
+    <string name="login_activity_senha_curta">Senha Curta!</string>
+
+    <!--   Perfil Fragment  -->
     <string name="fragment_perfil">Perfil</string>
+    <string name="fragment_perfil_btn_alterar">Alterar</string>
+    <string name="fragment_perfil_btn_finalizar">Finalizar</string>
+    <string name="fragment_perfil_btn_cancelar">Desfazer</string>
+
+    <!--  Usuarios Fragment  -->
     <string name="fragment_usuarios">Usuários</string>
+
+    <!--  Match Fragment  -->
     <string name="fragment_match">Match</string>
 
 </resources>
