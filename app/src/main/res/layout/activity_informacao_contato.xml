@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <TextView
+            android:hint="@string/informacao_activity_hint_primeiro_nome"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/informacao_act_contato_primeiro_nome"
+            android:textSize="25sp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="15dp"
+                app:srcCompat="@android:drawable/btn_dialog"
+                android:id="@+id/informacao_act_contato_foto" />
+
+            <TextView
+                android:hint="@string/informacao_activity_hint_resumo"
+                android:layout_marginStart="15dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/informacao_act_contato_descricao"
+                android:layout_weight="1" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:text="@string/informacao_activity_txt_nome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:hint="@string/informacao_activity_hint_nome_completo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/informacao_act_contato_nome"
+                android:layout_marginStart="15dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:text="@string/informacao_activity_txt_idade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:text="@string/informacao_activity_hint_idade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/informacao_act_contato_idade"
+                android:layout_marginStart="15dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:text="@string/informacao_activity_txt_idiomas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:text="@string/informacao_activity_hint_idiomas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/informacao_act_contato_idiomas"
+                android:layout_marginStart="15dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:text="@string/informacao_activity_txt_contato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"/>
+
+            <TextView
+                android:text="@string/informacao_activity_hint_contato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/informacao_act_contato_contato"
+                android:layout_marginStart="15dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -71,20 +71,6 @@ public class PerfilFragment extends Fragment {
         this.context = context;
     }
 
-    public void escolherDataNascimento(final EditText editText) {
-        final DatePickerDialog datepicker = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                int mesCerto = monthOfYear + 1;
-                editText.setText(dayOfMonth + "/" + mesCerto + "/" + year);
-
-            }
-        }, ano, mes, dia);
-        datepicker.show();
-    }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -180,6 +166,7 @@ public class PerfilFragment extends Fragment {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
     public void escolherDataNascimento(){
         final DatePickerDialog datepicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
@@ -192,6 +179,7 @@ public class PerfilFragment extends Fragment {
         }, ano, mes, dia);
         datepicker.show();
     }
+
     private boolean temTamanhoValido(String nome, String meioContato, String descricao) {
 
         if (!(nome.length() > 4)) {
@@ -229,6 +217,7 @@ public class PerfilFragment extends Fragment {
         }
         return true;
     }
+
     private boolean validarCampos(){
         formatter = new SimpleDateFormat("dd/MM/yyyy");
         try {

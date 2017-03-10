@@ -57,9 +57,24 @@
 
     <!--  Usuarios Fragment  -->
     <string name="fragment_usuarios">Usuários</string>
+    <string name="fragment_usuarios_txt_encontrados">Usuários encontrados</string>
+    <string name="fragment_usuarios_btn_pesquisar">Pesquisar</string>
 
     <!--  Match Fragment  -->
     <string name="fragment_match">Match</string>
+
+    <!-- Informações Activity -->
+    <string name="informacao_activity_hint_primeiro_nome">Carlos</string>
+    <string name="informacao_activity_txt_nome">Nome:</string>
+    <string name="informacao_activity_hint_nome_completo">Carlos Almeida</string>
+    <string name="informacao_activity_txt_idade">Idade:</string>
+    <string name="informacao_activity_txt_idiomas">Idiomas</string>
+    <string name="informacao_activity_txt_contato">Contato:</string>
+    <string name="informacao_activity_hint_resumo">Amante de Filmes e Séries.</string>
+    <string name="informacao_activity_hint_contato">(81)98441-2000</string>
+    <string name="informacao_activity_hint_idade">34</string>
+    <string name="informacao_activity_hint_idiomas">Português - Fluente/n Ingles - Intermediario</string>
+
 
 </resources>
 
