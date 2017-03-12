@@ -11,10 +11,17 @@
     <string name="erro_data_nascimento_vazia">Data de Nascimento obrigatória!</string>
     <string name="erro_descricao_vazia">Descrição obrigatória!</string>
     <string name="erro_meios_de_contato_vazio">Contato obrigatório!</string>
+    <string name="erro_idiomas_vazio">Idioma(s) obrigatório(s)!</string>
+    <string name="erro_foto_vazia">É necessário tirar uma foto!</string>
     <string name="erro_senhas_nao_correspondem">Senhas não batem!</string>
     <string name="erro_nome_curto">Nome com menos de 4 letras!</string>
     <string name="erro_meio_contato_curto">Meio(s) de contato muito curto!</string>
     <string name="erro_descricao_curta">Descrição muito curta!</string>
+    <string name="erro_idiomas_curto">Idiomas deve pelo menos 10 letras!</string>
+
+    <string name="erro_data_formato_errado">Erro no formato da data!</string>
+    <string name="erro_sem_internet">Sem acesso à internet</string>
+    <string name="erro_usuario_ja_cadastrado">Usuário já cadastrado!</string>
 
     <!--  Cadastro Activity  -->
     <string name="cadastro_activity_label">Cadastro</string>
@@ -27,13 +34,17 @@
     <string name="cadastro_activity_data_nascimento">Data de Nascimento: </string>
     <string name="cadastro_activity_descricao">Descrição: </string>
     <string name="cadastro_activity_meios_de_contato">Meios de contato: </string>
+    <string name="cadastro_activity_idiomas">Idiomas: </string>
     <string name="cadastro_activity_hint_nome">Maria do Carmo</string>
     <string name="cadastro_activity_hint_email">contato@branchout.com</string>
     <string name="cadastro_activity_hint_senha">*******</string>
     <string name="cadastro_activity_hint_repetir_senha">*******</string>
     <string name="cadastro_activity_hint_data_nascimento">14/09/1994</string>
-    <string name="cadastro_activity_hint_descricao">não sei o que colocar</string>
+    <string name="cadastro_activity_hint_descricao">Gosto de musica, esportes e jogos de video game</string>
     <string name="cadastro_activity_hint_meios_de_contato">Whatsapp:(81)99999-9999</string>
+    <string name="cadastro_activity_hint_idiomas">Português - Fluente, Inglês - Intermediário</string>
+
+    <string name="cadastro_activity_saudacao">Bem-vindo!</string>
 
     <!--  Login Activity  -->
     <string name="login_activity_email">Usuário:</string>

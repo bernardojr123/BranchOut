@@ -1,5 +1,7 @@
 package com.example.bernardojr.branchout.dominio;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,14 +11,14 @@ import java.util.Date;
 
 public class Usuario {
     private String id;
-    private String imagem;
+    private Bitmap imagem;
     private String nome;
     private String senha;
     private String email;
     private Date dataNascimento;
     private String descricao;
     private String meiosDeContato;
-    private ArrayList<Idioma> idiomas;
+    private String idiomas;
     private ArrayList<Usuario> solicitacoes;
     private ArrayList<Usuario> contatos;
 
@@ -30,11 +32,11 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getImagem() {
+    public Bitmap getImagem() {
         return imagem;
     }
 
-    public void setImagem(String imagem) {
+    public void setImagem(Bitmap imagem) {
         this.imagem = imagem;
     }
 
@@ -86,11 +88,11 @@ public class Usuario {
         this.meiosDeContato = meiosDeContato;
     }
 
-    public ArrayList<Idioma> getIdiomas() {
+    public String getIdiomas() {
         return idiomas;
     }
 
-    public void setIdiomas(ArrayList<Idioma> idiomas) {
+    public void setIdiomas(String idiomas) {
         this.idiomas = idiomas;
     }
 
