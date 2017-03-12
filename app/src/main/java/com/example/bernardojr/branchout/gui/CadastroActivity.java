@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
+import com.example.bernardojr.branchout.dados.UsuarioDAO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,6 +55,7 @@ public class CadastroActivity extends AppCompatActivity {
     private Resources resources;
     private SimpleDateFormat formatter;
 
+    private static Context mContext;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -63,6 +65,7 @@ public class CadastroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro);
 
         initViews();
+        mContext = getApplicationContext();
 
         edtDataNascimento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,12 +73,15 @@ public class CadastroActivity extends AppCompatActivity {
                 escolherDataNascimento();
             }
         });
-        final Context context = this.getApplicationContext();
+//        final Context context = this.getApplicationContext();
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validarCampos() == true){
-                    Toast.makeText(context,"foi",Toast.LENGTH_SHORT).show();
+                if (validarCampos())
+                {
+                    UsuarioDAO usuarioDAO = new UsuarioDAO(mContext);
+                    usuarioDAO.validaCadastro(email,senha,nome,"1996-12-2", descricao,meiosContato, "idiomas", "imagem");
+                    //NOME DEVE ADMITIR ESPACOS E DATA DEVE SER ENVIADA NO FORMATO AAAA-MM-DD
                 }
             }
         });
@@ -236,4 +242,20 @@ public class CadastroActivity extends AppCompatActivity {
         }return true;
     }
 
+    public static void mostraMensagem(String response)
+    {
+        if(response.equals(UsuarioDAO.SUCESSO_USUARIO_CADASTRADO))
+        {
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+            response = "Bem-vindo!";
+        }
+        else if(response.equals(UsuarioDAO.ERRO_USUARIO_JA_CADASTRADO))
+            response = "Usuário já cadastrado!";
+        else
+            response = "Sem acesso à internet";
+
+        Toast.makeText(mContext, response,Toast.LENGTH_LONG).show();
+    }
 }

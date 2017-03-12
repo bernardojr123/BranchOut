@@ -1,5 +1,6 @@
 package com.example.bernardojr.branchout.gui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +11,11 @@ import android.widget.Button;
 
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
+import com.example.bernardojr.branchout.dados.Funcoes;
+import com.example.bernardojr.branchout.dados.UsuarioDAO;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText edtEmail;
@@ -24,18 +28,21 @@ public class LoginActivity extends AppCompatActivity {
 
     private Resources resources;
 
+    private static Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         resources = this.getResources();
         initView();
+        mContext = getApplicationContext();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validarCampos()) {
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                    UsuarioDAO usuarioDAO = new UsuarioDAO(mContext);
+                    usuarioDAO.validaLogin(email, senha);
                 }
             }
         });
@@ -93,5 +100,24 @@ public class LoginActivity extends AppCompatActivity {
             edtSenha.setError(resources.getString(R.string.login_activity_senha_curta));
             return false;}
        return true;
+    }
+
+    public static void mostraMensagem(String response)
+    {
+        if(response.equals(UsuarioDAO.SUCESSO_LOGIN_E_SENHA_CORRETOS))
+        {
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+            response = "Bem-vindo!";
+        }
+        else if(response.equals(UsuarioDAO.ERRO_SENHA_INCORRETA))
+            response = "Senha incorreta!";
+        else if(response.equals(UsuarioDAO.ERRO_USUARIO_INEXISTENTE))
+            response = "Usuário não cadastrado !";
+        else
+            response = "Sem acesso à internet";
+
+        Toast.makeText(mContext, response,Toast.LENGTH_LONG).show();
     }
 }
