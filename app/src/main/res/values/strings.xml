@@ -62,6 +62,8 @@
 
     <!--  Match Fragment  -->
     <string name="fragment_match">Match</string>
+    <string name="fragment_match_solicitacoes">Solicitações</string>
+    <string name="fragment_match_contatos">Contatos</string>
 
     <!-- Informações Activity -->
     <string name="informacao_activity_hint_primeiro_nome">Carlos</string>

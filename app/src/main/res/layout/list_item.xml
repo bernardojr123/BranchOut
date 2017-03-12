@@ -5,23 +5,15 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/perfil_imgView"
-        android:layout_width="@dimen/imagem_lista_width"
-        android:layout_height="@dimen/imagem_lista_height" />
+        android:id="@+id/usuario_list_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"/>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/usuario_list_txt"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"/>
 
-        <TextView
-            android:id="@+id/nome_txtView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <ImageView
-            android:id="@+id/idioma_imgView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-    </RelativeLayout>
 </LinearLayout>
