@@ -12,17 +12,31 @@ import java.util.Date;
 public class Usuario {
     private String id;
     private Bitmap imagem;
+    private String imagemString;
     private String nome;
     private String senha;
     private String email;
     private Date dataNascimento;
+    private String dataNString;
     private String descricao;
     private String meiosDeContato;
     private String idiomas;
     private ArrayList<Usuario> solicitacoes;
     private ArrayList<Usuario> contatos;
 
-
+    public Usuario(String id, String imagemString, String nome, String senha, String email, String dataNString, String descricao, String meiosDeContato, String idiomas, ArrayList<Usuario> solicitacoes, ArrayList<Usuario> contatos) {
+        this.id = id;
+        this.imagemString = imagemString;
+        this.nome = nome;
+        this.senha = senha;
+        this.email = email;
+        this.dataNString = dataNString;
+        this.descricao = descricao;
+        this.meiosDeContato = meiosDeContato;
+        this.idiomas = idiomas;
+        this.solicitacoes = solicitacoes;
+        this.contatos = contatos;
+    }
 
     public String getId() {
         return id;

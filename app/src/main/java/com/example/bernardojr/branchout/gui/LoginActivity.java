@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
 import com.example.bernardojr.branchout.dados.Funcoes;
+import com.example.bernardojr.branchout.dados.Sessao;
 import com.example.bernardojr.branchout.dados.UsuarioDAO;
+import com.example.bernardojr.branchout.dominio.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText edtEmail;
@@ -119,5 +121,10 @@ public class LoginActivity extends AppCompatActivity {
             response = "Sem acesso à internet";
 
         Toast.makeText(mContext, response,Toast.LENGTH_LONG).show();
+    }
+
+    public static void carregaUsuario(Usuario usuario)
+    {
+        Sessao.getInstancia().setUsuario(usuario);
     }
 }

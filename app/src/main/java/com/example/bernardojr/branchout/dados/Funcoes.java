@@ -26,7 +26,7 @@ public class Funcoes {
 
     private Funcoes(){}
 
-    public static ArrayList<Usuario> fetchUsersData(String requestURL){
+    public static Usuario fetchUserData(String requestURL){
 
         URL url = createUrl(requestURL);
 
@@ -54,29 +54,56 @@ public class Funcoes {
         return jsonResponse;
     }
 
-    private static ArrayList<Usuario> extractUsers(String usersJSON) {
+    private static Usuario extractUsers(String usersJSON) {
 
         if(TextUtils.isEmpty(usersJSON))
             return null;
 
-        ArrayList<Usuario> users = new ArrayList<>();
+        Usuario usuario = null;
 
         try {
 
-            JSONArray usersArray = new JSONArray(usersJSON);
+            JSONArray usersArrayJson = new JSONArray(usersJSON);
+            JSONObject userJsonn =  usersArrayJson.getJSONObject(0);
+//            JSONArray usersFriends = usersArray.getJSONArray(1);
+//            JSONArray usersInvites = usersArray.getJSONArray(2);
 
-            for (int i=0; i < usersArray.length(); i++){
-                JSONObject userJson = usersArray.getJSONObject(i);
-                String login = userJson.getString("login");
-                String senha = userJson.getString("senha");
-//                users.add(new Usuario(login, senha,));
+            ArrayList<ArrayList<Usuario>> users = new ArrayList<>();
+
+
+
+            for (int i=1; i < usersArrayJson.length(); i++){
+                JSONArray jsonArray = usersArrayJson.getJSONArray(i);
+                ArrayList<Usuario> usersArrayList = new ArrayList<>();
+
+                for (int j=0; j < jsonArray.length(); j++) {
+                    JSONObject userJson = jsonArray.getJSONObject(j);
+
+                    String id = userJson.getString("id");
+                    String email = userJson.getString("email");
+                    String senha = userJson.getString("senha");
+                    String nome = userJson.getString("nome");
+                    String datanasc = userJson.getString("datanasc");
+                    String descricao = userJson.getString("descricao");
+                    String meiosdecontato = userJson.getString("meiosdecontato");
+                    String idiomas = userJson.getString("idiomas");
+                    String imagem = userJson.getString("imagem");
+                    usersArrayList.add(new Usuario(id, imagem, nome, senha, email, datanasc,
+                                                    descricao, meiosdecontato, idiomas, null, null));
+                }
+                users.add(usersArrayList);
             }
+            usuario = new Usuario(userJsonn.getString("id"), userJsonn.getString("imagem"),
+                                    userJsonn.getString("nome"), userJsonn.getString("senha"),
+                                    userJsonn.getString("email"),userJsonn.getString("datanasc"),
+                                    userJsonn.getString("descricao"), userJsonn.getString("meiosdecontato"),
+                                    userJsonn.getString("idiomas"), users.get(0), users.get(1));
 
         } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
         }
 
-        return users;
+        return usuario;
     }
 
     private static URL createUrl(String stringUrl) {
