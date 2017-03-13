@@ -1,21 +1,17 @@
 package com.example.bernardojr.branchout.gui;
 
-import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bernardojr.branchout.R;
 import com.example.bernardojr.branchout.dominio.Usuario;
 
-/**
- * Created by Bernardojr on 12/03/2017.
- */
-
 public class InformaçõesUsuarioActivity extends AppCompatActivity {
+
 
 
     private TextView primeiroNome;
@@ -33,13 +29,18 @@ public class InformaçõesUsuarioActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         String s = getIntent().getStringExtra("VALOR");
-        if(s == "contato"){
+        //if(s == "contato"){
             setContentView(R.layout.activity_informacao_contato);
             initViewsContato();
-        }else{
-            setContentView(R.layout.activity_informacao_match);
-            initViewsMatch();
-        }
+        //}else{
+            //setContentView(R.layout.activity_informacao_match);
+            //initViewsMatch();
+        //}
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+        getWindow().setLayout((int) (width * .95), (int) (height * .95));
     }
 
     private void initViewsContato(){

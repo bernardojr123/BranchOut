@@ -2,6 +2,8 @@ package com.example.bernardojr.branchout.dominio;
 
 import android.graphics.Bitmap;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,6 +33,7 @@ public class Usuario {
         this.senha = senha;
         this.email = email;
         this.dataNString = dataNString;
+        stringToDate(dataNString);
         this.descricao = descricao;
         this.meiosDeContato = meiosDeContato;
         this.idiomas = idiomas;
@@ -125,4 +128,14 @@ public class Usuario {
     public void setContatos(ArrayList<Usuario> contatos) {
         this.contatos = contatos;
     }
+
+    public void stringToDate(String date){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            setDataNascimento(formatter.parse(dataNString));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

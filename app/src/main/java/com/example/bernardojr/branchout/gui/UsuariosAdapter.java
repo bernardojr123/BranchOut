@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.example.bernardojr.branchout.R;
 import com.example.bernardojr.branchout.dominio.Usuario;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -62,13 +65,22 @@ public class UsuariosAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                String data = sdf.format(((Usuario) getItem(position)).getDataNascimento());
                 if(contato == true){
-                    Intent it = new Intent(context,InformaçõesUsuarioActivity.class);
-                    //TODO: PASSAR OBJETO PARA A OUTRA ACTIVITY
+                    Intent it = new Intent(context,InformacoesContatoActivity.class);
+                    it.putExtra("NOME",((Usuario) getItem(position)).getNome());
+                    it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao());
+                    it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas());
+                    it.putExtra("CONTATO",((Usuario) getItem(position)).getMeiosDeContato());
+                    it.putExtra("DATA",data);
                     context.startActivity(it);
+
+
+
                 }
                 else{
-                    Intent it = new Intent(context,InformaçõesUsuarioActivity.class);
+                    Intent it = new Intent(context,InformacoesContatoActivity.class);
                     //TODO: PASSAR OBJETO PARA A OUTRA ACTIVITY
                     context.startActivity(it);
                 }

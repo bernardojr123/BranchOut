@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bernardojr.branchout">
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +14,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".gui.HomeActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".gui.CadastroActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".gui.LoginActivity"
+        <activity
+            android:name=".gui.HomeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".gui.CadastroActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".gui.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,5 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".gui.InformacoesContatoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleDialog"></activity>
     </application>
+
 </manifest>

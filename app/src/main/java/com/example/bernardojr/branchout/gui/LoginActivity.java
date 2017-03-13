@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
-import com.example.bernardojr.branchout.dados.Funcoes;
 import com.example.bernardojr.branchout.dados.Sessao;
 import com.example.bernardojr.branchout.dados.UsuarioDAO;
 import com.example.bernardojr.branchout.dominio.Usuario;
@@ -31,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private Resources resources;
 
     private static Context mContext;
+    private static String sEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validarCampos() {
         email = edtEmail.getText().toString().trim();
+        sEmail = email;
         senha = edtSenha.getText().toString();
         return (validaVazios(email, senha) &&
                 validarEmail(email) && validarSenha(senha));
@@ -104,13 +105,11 @@ public class LoginActivity extends AppCompatActivity {
        return true;
     }
 
-    public static void mostraMensagem(String response)
-    {
+    public static void mostraMensagem(String response) {
         if(response.equals(UsuarioDAO.SUCESSO_LOGIN_E_SENHA_CORRETOS))
         {
-            Intent intent = new Intent(mContext, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
+            UsuarioDAO usuaDao = new UsuarioDAO(mContext);
+            usuaDao.pegaUsuario(sEmail);
             response = "Bem-vindo!";
         }
         else if(response.equals(UsuarioDAO.ERRO_SENHA_INCORRETA))
@@ -123,8 +122,10 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(mContext, response,Toast.LENGTH_LONG).show();
     }
 
-    public static void carregaUsuario(Usuario usuario)
-    {
+    public static void carregaUsuario(Usuario usuario){
         Sessao.getInstancia().setUsuario(usuario);
+        Intent intent = new Intent(mContext, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
     }
 }

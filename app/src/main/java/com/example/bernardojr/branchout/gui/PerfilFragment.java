@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
+import com.example.bernardojr.branchout.dados.Sessao;
+import com.example.bernardojr.branchout.dominio.Usuario;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,6 +64,12 @@ public class PerfilFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_perfil_alterar, container, false);
         initView(rootView);
         telaDefault();
+
+        Usuario usuario2 = Sessao.getInstancia().getUsuario();
+        if (Sessao.getInstancia().getUsuario() != null) {
+            Usuario usuario = Sessao.getInstancia().getUsuario();
+            preencherCampos(Sessao.getInstancia().getUsuario());
+        }
         return rootView;
     }
 
@@ -119,6 +127,7 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 telaDefault();
+                preencherCampos(Sessao.getInstancia().getUsuario());
             }
         });
         btnProx.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +141,17 @@ public class PerfilFragment extends Fragment {
         });
     }
 
+    private void preencherCampos(Usuario usuario){
+        edtNome.setText(usuario.getNome());
+        edtEmail.setText(usuario.getEmail());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String data = sdf.format(usuario.getDataNascimento());
+        edtData.setText(data);
+        edtMeioContato.setText(usuario.getMeiosDeContato());
+        edtDescricao.setText(usuario.getDescricao());
+    }
+
     private void telaDefault(){
         travarEdicaoCampos();
         btnVoltar.setVisibility(View.INVISIBLE);
@@ -140,7 +160,6 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 telaEditar();
-                Toast.makeText(context,"foir",Toast.LENGTH_SHORT);
             }
         });
     }

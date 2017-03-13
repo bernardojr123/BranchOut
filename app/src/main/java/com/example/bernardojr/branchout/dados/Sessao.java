@@ -9,7 +9,7 @@ import com.example.bernardojr.branchout.dominio.Usuario;
 public class Sessao {
 
     private static Sessao instancia = new Sessao();
-    private Usuario usuario;
+    private static Usuario usuario;
 
     private Sessao(){
 

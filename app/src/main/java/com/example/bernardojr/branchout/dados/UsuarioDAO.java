@@ -42,7 +42,7 @@ public class UsuarioDAO {
         new BackgroundTaskForValidation().execute("cadastro", urlRequest);
     }
 
-    public void pegaUsuarios(String email)
+    public void pegaUsuario(String email)
     {
         urlRequest = "http://obichoebom.azurewebsites.net/user/getusersrelated.php?email="+email;
         Log.v("URL PEGA USUARIOS", urlRequest);

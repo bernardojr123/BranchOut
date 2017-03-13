@@ -65,42 +65,48 @@ public class Funcoes {
 
             JSONArray usersArrayJson = new JSONArray(usersJSON);
             JSONObject userJsonn =  usersArrayJson.getJSONObject(0);
-//            JSONArray usersFriends = usersArray.getJSONArray(1);
-//            JSONArray usersInvites = usersArray.getJSONArray(2);
+
+//            usersArray.getJSONArray(1);
+//            usersArray.getJSONArray(2);
 
             ArrayList<ArrayList<Usuario>> users = new ArrayList<>();
 
-
-
             for (int i=1; i < usersArrayJson.length(); i++){
-                JSONArray jsonArray = usersArrayJson.getJSONArray(i);
-                ArrayList<Usuario> usersArrayList = new ArrayList<>();
 
-                for (int j=0; j < jsonArray.length(); j++) {
-                    JSONObject userJson = jsonArray.getJSONObject(j);
+                if(usersArrayJson.getJSONArray(i) != null) {
 
-                    String id = userJson.getString("id");
-                    String email = userJson.getString("email");
-                    String senha = userJson.getString("senha");
-                    String nome = userJson.getString("nome");
-                    String datanasc = userJson.getString("datanasc");
-                    String descricao = userJson.getString("descricao");
-                    String meiosdecontato = userJson.getString("meiosdecontato");
-                    String idiomas = userJson.getString("idiomas");
-                    String imagem = userJson.getString("imagem");
-                    usersArrayList.add(new Usuario(id, imagem, nome, senha, email, datanasc,
-                                                    descricao, meiosdecontato, idiomas, null, null));
+                    JSONArray jsonArray = usersArrayJson.getJSONArray(i);
+
+                    ArrayList<Usuario> usersArrayList = new ArrayList<>();
+
+                    for (int j = 0; j < jsonArray.length(); j++) {
+                        JSONObject userJson = jsonArray.getJSONObject(j);
+
+                        String id = userJson.getString("id");
+                        String email = userJson.getString("email");
+                        String senha = userJson.getString("senha");
+                        String nome = userJson.getString("nome");
+                        String datanasc = userJson.getString("datanasc");
+                        String descricao = userJson.getString("descricao");
+                        String meiosdecontato = userJson.getString("meiosdecontato");
+                        String idiomas = userJson.getString("idiomas");
+                        String imagem = userJson.getString("imagem");
+                        usersArrayList.add(new Usuario(id, imagem, nome, senha, email, datanasc,
+                                descricao, meiosdecontato, idiomas, null, null));
+                    }
+                    users.add(usersArrayList);
                 }
-                users.add(usersArrayList);
+                else
+                    users.add(null);
             }
             usuario = new Usuario(userJsonn.getString("id"), userJsonn.getString("imagem"),
-                                    userJsonn.getString("nome"), userJsonn.getString("senha"),
-                                    userJsonn.getString("email"),userJsonn.getString("datanasc"),
-                                    userJsonn.getString("descricao"), userJsonn.getString("meiosdecontato"),
-                                    userJsonn.getString("idiomas"), users.get(0), users.get(1));
+                    userJsonn.getString("nome"), userJsonn.getString("senha"),
+                    userJsonn.getString("email"),userJsonn.getString("datanasc"),
+                    userJsonn.getString("descricao"), userJsonn.getString("meiosdecontato"),
+                    userJsonn.getString("idiomas"), users.get(0), users.get(1));
 
         } catch (JSONException e) {
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the user JSON results", e);
         }
 
         return usuario;

@@ -94,14 +94,13 @@ public class CadastroActivity extends AppCompatActivity {
                         toast.show();
                         return;
                     }
-                    try{
-                        String foto = imgToBase64();
-                        UsuarioDAO usuarioDAO = new UsuarioDAO(mContext);
-                        usuarioDAO.validaCadastro(email,senha,nome,data, descricao,meiosContato, idiomas, foto.replace(" ","%20"));
-                    }catch (Exception e){
-                        Toast toast = Toast.makeText(mContext, "deu erro", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    String foto = imgToBase64();
+                    String fotoBd = foto.replace("+","-");
+                    fotoBd = fotoBd.replace("/","_");
+                    fotoBd = fotoBd.replace("=",",");
+
+                    UsuarioDAO usuarioDAO = new UsuarioDAO(mContext);
+                    usuarioDAO.validaCadastro(email,senha,nome,data, descricao,meiosContato, idiomas, "porFoto");
 
 
                 }
@@ -119,7 +118,9 @@ public class CadastroActivity extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
-        String foto = Base64.encodeToString(b,Base64.DEFAULT);
+
+        String foto = Base64.encodeToString(b,Base64.URL_SAFE | Base64.NO_WRAP);
+        Log.e("FOTO", foto);
         return foto;
     }
 
@@ -288,9 +289,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     public static void mostraMensagem(String response) {
         int resposta;
-        if(response.equals(UsuarioDAO.SUCESSO_USUARIO_CADASTRADO))
-        {
-
+        if(response.equals(UsuarioDAO.SUCESSO_USUARIO_CADASTRADO)){
             Intent intent = new Intent(mContext, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
