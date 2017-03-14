@@ -99,7 +99,7 @@ public class CadastroActivity extends AppCompatActivity {
                     fotoBd = fotoBd.replace("/","_");
                     fotoBd = fotoBd.replace("=",",");
 
-                    UsuarioDAO usuarioDAO = new UsuarioDAO(mContext);
+                    UsuarioDAO usuarioDAO = new UsuarioDAO();
                     usuarioDAO.validaCadastro(email,senha,nome,data, descricao,meiosContato, idiomas, "porFoto");
 
 

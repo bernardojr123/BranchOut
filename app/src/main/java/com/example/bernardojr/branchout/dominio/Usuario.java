@@ -135,6 +135,30 @@ public class Usuario {
         this.contatos = contatos;
     }
 
+    public String getUltimaLocalizacao() {
+        return ultimaLocalizacao;
+    }
+
+    public void setUltimaLocalizacao(String ultimaLocalizacao) {
+        this.ultimaLocalizacao = ultimaLocalizacao;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public void setY(String y) {
+        this.y = y;
+    }
+
+    public String getX() {
+        return x;
+    }
+
+    public void setX(String x) {
+        this.x = x;
+    }
+
     public void stringToDate(String date){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {

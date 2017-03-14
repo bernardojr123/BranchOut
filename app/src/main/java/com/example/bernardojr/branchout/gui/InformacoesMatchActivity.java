@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,8 @@ public class InformacoesMatchActivity extends AppCompatActivity {
     private TextView txtIdade;
     private TextView txtIdiomas;
     private Usuario usuario;
+    private ImageView btnAceitar;
+    private ImageView btnRecusar;
 
     private Bitmap foto;
     private String descricao;
@@ -51,6 +55,20 @@ public class InformacoesMatchActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         getWindow().setLayout((int) (width * 1), (int) (height * .80));
+
+        btnAceitar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnRecusar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void initViews(){
@@ -60,6 +78,8 @@ public class InformacoesMatchActivity extends AppCompatActivity {
         txtNomeCompleto = (TextView) findViewById(R.id.informacao_act_match_nome);
         txtIdade = (TextView) findViewById(R.id.informacao_act_match_idade);
         txtIdiomas = (TextView) findViewById(R.id.informacao_act_match_idiomas);
+        btnAceitar = (ImageView) findViewById(R.id.informacao_act_match_btn_aceitar);
+        btnRecusar = (ImageView) findViewById(R.id.informacao_act_match_btn_cancelar);
     }
 
     private void setCampos(){

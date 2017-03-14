@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
 import com.example.bernardojr.branchout.dados.Sessao;
+import com.example.bernardojr.branchout.dados.UsuarioDAO;
 import com.example.bernardojr.branchout.dominio.Usuario;
 
 import java.util.List;
@@ -53,6 +55,19 @@ public class MatchFragment extends Fragment {
             }
         }
 
+        imgRefreashMatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atualizaListagens();
+            }
+        });
+        imgRefreshContato.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atualizaListagens();
+            }
+        });
+
         return view;
     }
 
@@ -61,4 +76,22 @@ public class MatchFragment extends Fragment {
         this.context = context;
         super.onAttach(context);
     }
+
+    private void atualizaListagens(){
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
+        contatosAdapter = new UsuariosAdapter(getActivity(),contatos,true);
+        listContatos.setAdapter(contatosAdapter);
+        solicitacoesAdapter = new UsuariosAdapter(getActivity(),solicitacoes,false);
+        listMatch.setAdapter(solicitacoesAdapter);
+        Toast.makeText(getActivity(),"passou para ca",Toast.LENGTH_SHORT).show();
+    }
+
+    public static void carregaUsuario(Usuario usuario){
+        Usuario b = Sessao.getInstancia().getUsuario();
+        Sessao.getInstancia().setUsuario(usuario);
+        Usuario a = Sessao.getInstancia().getUsuario();
+    }
+
+
 }

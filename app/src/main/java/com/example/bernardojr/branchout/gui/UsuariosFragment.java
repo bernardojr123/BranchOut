@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
+import com.example.bernardojr.branchout.dados.Sessao;
+import com.example.bernardojr.branchout.dados.UsuarioDAO;
 import com.example.bernardojr.branchout.dominio.Usuario;
 
 import java.util.List;
@@ -37,10 +39,12 @@ public class UsuariosFragment extends Fragment{
     private ListView listView;
     private UsuariosAdapter usuariosAdapter;
     private List<Usuario> usuarios;
+    private UsuarioDAO usuarioDAO;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_usuarios,container,false);
+        usuarioDAO = new UsuarioDAO();
         imgRefresh = (ImageView) view.findViewById(R.id.fragment_acitivty_img_refresh);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         listView = (ListView) view.findViewById(R.id.fragment_acitivty_list_usuarios);
@@ -98,8 +102,11 @@ public class UsuariosFragment extends Fragment{
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
-                    Toast.makeText(getActivity(), ""+latitudeNetwork + " "+ longitudeNetwork, Toast.LENGTH_SHORT).show();
+                    if(Sessao.getInstancia().getUsuario() != null){
+                        String id = Sessao.getInstancia().getUsuario().getId();
+                        usuarioDAO.enviaLocalizacao(id,""+longitudeNetwork,""+latitudeNetwork);
+                        Toast.makeText(getActivity(), ""+longitudeNetwork+ " "+ latitudeNetwork , Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -125,7 +132,7 @@ public class UsuariosFragment extends Fragment{
             return;
 
             locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 60 * 1000, 10, locationListenerNetwork);
+                    LocationManager.NETWORK_PROVIDER, 30 * 1000, 0, locationListenerNetwork);
             Toast.makeText(getActivity(), "Network provider started running", Toast.LENGTH_LONG).show();
 
     }

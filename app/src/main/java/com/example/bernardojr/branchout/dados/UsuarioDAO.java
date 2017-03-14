@@ -7,12 +7,12 @@ import android.util.Log;
 import com.example.bernardojr.branchout.dominio.Usuario;
 import com.example.bernardojr.branchout.gui.CadastroActivity;
 import com.example.bernardojr.branchout.gui.LoginActivity;
+import com.example.bernardojr.branchout.gui.MatchFragment;
 
 import java.util.ArrayList;
 
 public class UsuarioDAO {
 
-    private Context mContext;
     private String urlRequest;
 
     public static final String SUCESSO_USUARIO_CADASTRADO = "0";
@@ -23,16 +23,11 @@ public class UsuarioDAO {
     public static final String SUCESSO_CONSULTA_REALIZADA = "5";
     public static final String ERRO_CONSULTA_NAO_REALIZADA = "6";
 
-
-    public UsuarioDAO(Context mContext) {
-        this.mContext = mContext;
-    }
-
     public void validaLogin(String email, String senha)
     {
         urlRequest = "http://obichoebom.azurewebsites.net/user/userlogin.php?email="+email+"&senha="+senha;
         Log.v("EMAIL E SENHA", email+senha);
-        new BackgroundTaskForValidation().execute("login", urlRequest);
+        new BackgroundTask().execute("login", urlRequest);
     }
 
     public void validaCadastro(String email, String senha, String nome, String dataNasc,String descricao, String meiosDecontato, String idiomas, String imagem)
@@ -42,23 +37,23 @@ public class UsuarioDAO {
                 meiosDecontato+"&idiomas="+idiomas+"&imagem="+imagem;
 
         Log.v("URL COMPLETA", urlRequest);
-        new BackgroundTaskForValidation().execute("cadastro", urlRequest);
-    }
-
-    public void pegaUsuario(String email)
-    {
-        urlRequest = "http://obichoebom.azurewebsites.net/user/getusersrelated.php?email="+email;
-        Log.v("URL PEGA USUARIOS", urlRequest);
-        new BackgroundTaskForRetrievingData().execute(urlRequest);
+        new BackgroundTask().execute("cadastro", urlRequest);
     }
 
     public void enviaLocalizacao(String id, String x, String y)
     {
-        urlRequest = "http://obichoebom.azurewebsites.net/user/getusersrelated.php?id="+id+"&x="+x+"&y="+y;
-        new BackgroundTaskForSendingLocation().execute(urlRequest);
+        urlRequest = "http://obichoebom.azurewebsites.net/user/addlocation.php?id="+id+"&x="+x+"&y="+y;
+        new BackgroundTask().execute("localizacao", urlRequest);
     }
 
-    private class BackgroundTaskForValidation extends AsyncTask<String, Void, String[]> {
+    public void pegaUsuario(String email, String vControle)
+    {
+        urlRequest = "http://obichoebom.azurewebsites.net/user/getusersrelated.php?email="+email;
+        Log.v("URL PEGA USUARIOS", urlRequest);
+        new BackgroundTaskForRetrievingData(vControle).execute(urlRequest);
+    }
+
+    private class BackgroundTask extends AsyncTask<String, Void, String[]> {
 
         @Override
         protected String[] doInBackground(String... urls) {
@@ -76,10 +71,17 @@ public class UsuarioDAO {
                 LoginActivity.mostraMensagem(response[1]);
             else if (response[0].equals("cadastro"))
                 CadastroActivity.mostraMensagem(response[1]);
+            else if (response[0].equals("localizacao"))
+                return;
         }
     }
 
     private class BackgroundTaskForRetrievingData extends AsyncTask<String, Void, Usuario> {
+        private String vControle;
+
+        public BackgroundTaskForRetrievingData(String vControle) {
+            this.vControle = vControle;
+        }
 
         @Override
         protected Usuario doInBackground(String... urls) {
@@ -89,20 +91,10 @@ public class UsuarioDAO {
 
         @Override
         protected void onPostExecute(Usuario usuario) {
-            LoginActivity.carregaUsuario(usuario);
-        }
-    }
-
-    private class BackgroundTaskForSendingLocation extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... urls) {
-            return Funcoes.getStringResponse(urls[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            //Enviar status pra algum lugar...
+            if(vControle.equals("0"))
+                LoginActivity.carregaUsuario(usuario);
+            else if(vControle.equals("1"))
+                MatchFragment.carregaUsuario(usuario);
         }
     }
 }
