@@ -80,8 +80,11 @@ public class UsuariosAdapter extends BaseAdapter {
 
                 }
                 else{
-                    Intent it = new Intent(context,InformacoesContatoActivity.class);
-                    //TODO: PASSAR OBJETO PARA A OUTRA ACTIVITY
+                    Intent it = new Intent(context,InformacoesMatchActivity.class);
+                    it.putExtra("NOME",((Usuario) getItem(position)).getNome());
+                    it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao());
+                    it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas());
+                    it.putExtra("DATA",data);
                     context.startActivity(it);
                 }
             }

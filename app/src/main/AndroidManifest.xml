@@ -6,9 +6,9 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,10 +18,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".gui.HomeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".gui.CadastroActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".gui.LoginActivity"
             android:screenOrientation="portrait">
@@ -31,9 +31,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".gui.InformacoesContatoActivity"
+        <activity
+            android:name=".gui.InformacoesContatoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoTitleDialog"></activity>
+            android:theme="@style/NoTitleDialog" />
+        <activity android:name=".gui.InformacoesMatchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleDialog" ></activity>
     </application>
 
 </manifest>
