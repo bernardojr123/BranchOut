@@ -8,8 +8,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.IntegerRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,13 @@ import com.example.bernardojr.branchout.dados.Sessao;
 import com.example.bernardojr.branchout.dados.UsuarioDAO;
 import com.example.bernardojr.branchout.dominio.Usuario;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by romero on 19/01/17.
@@ -38,7 +46,7 @@ public class UsuariosFragment extends Fragment{
     private Location currentPosition;
     private ListView listView;
     private UsuariosAdapter usuariosAdapter;
-    private List<Usuario> usuarios;
+    private static ArrayList<Usuario> usuarios = new ArrayList<>();
     private UsuarioDAO usuarioDAO;
 
     @Override
@@ -48,17 +56,25 @@ public class UsuariosFragment extends Fragment{
         imgRefresh = (ImageView) view.findViewById(R.id.fragment_acitivty_img_refresh);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         listView = (ListView) view.findViewById(R.id.fragment_acitivty_list_usuarios);
+        toggleNetworkUpdates();
 
-        //TODO PEGAR USUARIOS PROXIMOS E COLOCA-LOS NA LISTAGEM
-        //usuariosAdapter = new UsuariosAdapter(getActivity(),usuarios,false);
-        //listView.setAdapter(usuariosAdapter);
 
-        imgRefresh.setOnClickListener(new View.OnClickListener() {
+/*        imgRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggleNetworkUpdates();
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                usuarioDAO.pegaUsuarios(Sessao.getInstancia().getUsuario().getId());
+
+                if(Sessao.getInstancia().getUsuariosProximos().size() != 0){
+                    usuariosAdapter = new UsuariosAdapter(getActivity(),limparPorProximidade(Sessao.getInstancia().getUsuariosProximos()),false);
+                    listView.setAdapter(usuariosAdapter);
+                    Toast.makeText(getActivity(),"foi",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(),"nao foi",Toast.LENGTH_SHORT).show();
+                }
+
             }
-        });
+        });*/
         return view;
     }
 
@@ -145,5 +161,85 @@ public class UsuariosFragment extends Fragment{
     public void onAttach(Context context) {
         this.context = context;
         super.onAttach(context);
+    }
+
+    public static void carregarUsuarios(ArrayList<Usuario> usus){
+
+        for (int j = 0; j < usus.size(); j++){
+            Sessao.getInstancia().setUsuariosProximos(usus);
+            usuarios.add(usus.get(j));
+        }
+        ArrayList<Usuario> a = Sessao.getInstancia().getUsuariosProximos();
+    }
+
+    private static ArrayList<Usuario> getUsuarios(){
+        return usuarios;
+    }
+
+    private ArrayList<Usuario> limparPorProximidade(ArrayList<Usuario> usuarios){
+        ArrayList<Usuario> usuariosFiltrados = new ArrayList<>();
+        if (usuarios.size() != 0){
+            for (int i=0; i < usuarios.size(); i++){
+                Usuario usuario1 = usuarios.get(i);
+                if (usuario1.getId() != Sessao.getInstancia().getUsuario().getId()
+                        && usuario1.getX()!= null &&usuario1.getY()!= null && usuario1.getUltimaLocalizacao() != null){
+                    String x = usuario1.getX();
+                    String y = usuario1.getY();
+                    String hr = usuario1.getUltimaLocalizacao();
+                    Date dataHora = stringToDate(hr);
+                    if(calcularDistancia(x,y) && calcularTempo(dataHora)){
+                        usuariosFiltrados.add(usuario1);
+                    }
+
+                }
+            }
+        }
+        return usuariosFiltrados;
+    }
+
+    private Date stringToDate(String hr){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date data = new Date();
+        try {
+             data = sdf.parse(hr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    private boolean calcularDistancia(String x, String y){
+        Location localOutro = new Location("");
+        Location localUsuario = new Location("");
+        localOutro.setLatitude(Double.parseDouble(y));
+        localOutro.setLongitude(Double.parseDouble(x));
+        localUsuario.setLongitude(Double.parseDouble(Sessao.getInstancia().getUsuario().getX()));
+        localUsuario.setLatitude(Double.parseDouble(Sessao.getInstancia().getUsuario().getY()));
+        float distanceInMeters =  localUsuario.distanceTo(localOutro);
+        if (distanceInMeters < 300){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean calcularTempo(Date dataOutro){
+        Date dataOutroNova;
+
+        Calendar cal = Calendar.getInstance(); // creates calendar
+        Date agr = new Date();
+        cal.setTime(dataOutro); // sets calendar time/date
+        cal.add(Calendar.HOUR_OF_DAY, -3); // adds one hour
+        dataOutroNova = cal.getTime();
+        TimeUnit timeUnit = TimeUnit.MINUTES;
+        if(getDateDiff(dataOutroNova,agr,timeUnit) < 30){
+            return true;
+        }
+
+        return false;
+    }
+
+    public long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MINUTES);
     }
 }

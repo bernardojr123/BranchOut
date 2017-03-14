@@ -80,17 +80,16 @@ public class MatchFragment extends Fragment {
     private void atualizaListagens(){
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
+        contatos = Sessao.getInstancia().getUsuario().getContatos();
+        solicitacoes = Sessao.getInstancia().getUsuario().getSolicitacoes();
         contatosAdapter = new UsuariosAdapter(getActivity(),contatos,true);
         listContatos.setAdapter(contatosAdapter);
         solicitacoesAdapter = new UsuariosAdapter(getActivity(),solicitacoes,false);
         listMatch.setAdapter(solicitacoesAdapter);
-        Toast.makeText(getActivity(),"passou para ca",Toast.LENGTH_SHORT).show();
     }
 
     public static void carregaUsuario(Usuario usuario){
-        Usuario b = Sessao.getInstancia().getUsuario();
         Sessao.getInstancia().setUsuario(usuario);
-        Usuario a = Sessao.getInstancia().getUsuario();
     }
 
 

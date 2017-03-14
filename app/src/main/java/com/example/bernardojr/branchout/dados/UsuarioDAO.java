@@ -8,6 +8,7 @@ import com.example.bernardojr.branchout.dominio.Usuario;
 import com.example.bernardojr.branchout.gui.CadastroActivity;
 import com.example.bernardojr.branchout.gui.LoginActivity;
 import com.example.bernardojr.branchout.gui.MatchFragment;
+import com.example.bernardojr.branchout.gui.UsuariosFragment;
 
 import java.util.ArrayList;
 
@@ -121,7 +122,8 @@ public class UsuarioDAO {
 
         @Override
         protected void onPostExecute(ArrayList<Usuario> usuarios) {
-
+            ArrayList<Usuario> a = usuarios;
+            UsuariosFragment.carregarUsuarios(usuarios);
         }
     }
 }
