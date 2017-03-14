@@ -53,6 +53,12 @@ public class UsuarioDAO {
         new BackgroundTaskForRetrievingData(vControle).execute(urlRequest);
     }
 
+    public void pegaUsuarios(String id)
+    {
+        urlRequest = "http://obichoebom.azurewebsites.net/user/getusers.php?id="+id;
+        new BackgroundTaskForRetrievingAllUsersData().execute(urlRequest);
+    }
+
     private class BackgroundTask extends AsyncTask<String, Void, String[]> {
 
         @Override
@@ -95,6 +101,19 @@ public class UsuarioDAO {
                 LoginActivity.carregaUsuario(usuario);
             else if(vControle.equals("1"))
                 MatchFragment.carregaUsuario(usuario);
+        }
+    }
+
+    private class BackgroundTaskForRetrievingAllUsersData extends AsyncTask<String, Void, ArrayList<Usuario>> {
+
+        @Override
+        protected ArrayList<Usuario> doInBackground(String... urls) {
+            return Funcoes.fetchAllUsersData(urls[0]);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Usuario> usuarios) {
+
         }
     }
 }

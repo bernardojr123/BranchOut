@@ -26,6 +26,20 @@ public class Funcoes {
 
     private Funcoes(){}
 
+    public static ArrayList<Usuario> fetchAllUsersData(String requestURL){
+
+        URL url = createUrl(requestURL);
+
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpGETRequest(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error closing input stream", e);
+        }
+
+        return extractAllUsers(jsonResponse);
+    }
+
     public static Usuario fetchUserData(String requestURL){
 
         URL url = createUrl(requestURL);
@@ -53,6 +67,44 @@ public class Funcoes {
 
         return jsonResponse;
     }
+
+    private static ArrayList<Usuario> extractAllUsers(String usersJSON) {
+
+        if(TextUtils.isEmpty(usersJSON))
+            return null;
+
+        ArrayList<Usuario> users = new ArrayList<>();
+
+        try {
+
+            JSONArray usersArrayJson = new JSONArray(usersJSON);
+
+                    for (int j = 0; j < usersArrayJson.length(); j++) {
+                        JSONObject userJson = usersArrayJson.getJSONObject(j);
+
+                        String id = userJson.getString("id");
+                        String email = userJson.getString("email");
+                        String senha = userJson.getString("senha");
+                        String nome = userJson.getString("nome");
+                        String datanasc = userJson.getString("datanasc");
+                        String descricao = userJson.getString("descricao");
+                        String meiosdecontato = userJson.getString("meiosdecontato");
+                        String idiomas = userJson.getString("idiomas");
+                        String imagem = userJson.getString("imagem");
+                        String x = userJson.getString("x");
+                        String y = userJson.getString("y");
+                        String ultimaLocalizacao = userJson.getString("ultimaLocalizacao");
+                        users.add(new Usuario(id, imagem, nome, senha, email, datanasc,
+                                descricao, meiosdecontato, idiomas,x, y, ultimaLocalizacao, null, null));
+                    }
+
+        } catch (JSONException e) {
+            Log.e("QueryUtils", "Problem parsing the user JSON results", e);
+        }
+
+        return users;
+    }
+
 
     private static Usuario extractUsers(String usersJSON) {
 
