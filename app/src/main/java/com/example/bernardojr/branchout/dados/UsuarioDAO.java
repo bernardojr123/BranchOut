@@ -59,6 +59,12 @@ public class UsuarioDAO {
         new BackgroundTaskForRetrievingAllUsersData().execute(urlRequest);
     }
 
+    public void match(String idUsuario, String idContato, String tipo /*  "A" para aceitar e enviar solicitação e N para negar  */)
+    {
+        urlRequest = "http://obichoebom.azurewebsites.net/user/match.php?idUsuario="+idUsuario+"&idContato="+idContato+"&tipo="+tipo;
+        new BackgroundTask().execute("match", urlRequest);
+    }
+
     private class BackgroundTask extends AsyncTask<String, Void, String[]> {
 
         @Override
@@ -78,6 +84,8 @@ public class UsuarioDAO {
             else if (response[0].equals("cadastro"))
                 CadastroActivity.mostraMensagem(response[1]);
             else if (response[0].equals("localizacao"))
+                return;
+            else if (response[0].equals("match"))
                 return;
         }
     }
