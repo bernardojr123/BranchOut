@@ -23,10 +23,13 @@ public class Usuario {
     private String descricao;
     private String meiosDeContato;
     private String idiomas;
+    private String x;
+    private String y;
+    private String ultimaLocalizacao;
     private ArrayList<Usuario> solicitacoes;
     private ArrayList<Usuario> contatos;
 
-    public Usuario(String id, String imagemString, String nome, String senha, String email, String dataNString, String descricao, String meiosDeContato, String idiomas, ArrayList<Usuario> solicitacoes, ArrayList<Usuario> contatos) {
+    public Usuario(String id, String imagemString, String nome, String senha, String email, String dataNString, String descricao, String meiosDeContato, String idiomas, String x, String y, String ultimaLocalizacao, ArrayList<Usuario> solicitacoes, ArrayList<Usuario> contatos) {
         this.id = id;
         this.imagemString = imagemString;
         this.nome = nome;
@@ -37,6 +40,9 @@ public class Usuario {
         this.descricao = descricao;
         this.meiosDeContato = meiosDeContato;
         this.idiomas = idiomas;
+        this.x = x;
+        this.y = y;
+        this.ultimaLocalizacao = ultimaLocalizacao;
         this.solicitacoes = solicitacoes;
         this.contatos = contatos;
     }

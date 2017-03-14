@@ -20,6 +20,9 @@ public class UsuarioDAO {
     public static final String SUCESSO_LOGIN_E_SENHA_CORRETOS = "2";
     public static final String ERRO_SENHA_INCORRETA = "3";
     public static final String ERRO_USUARIO_INEXISTENTE = "4";
+    public static final String SUCESSO_CONSULTA_REALIZADA = "5";
+    public static final String ERRO_CONSULTA_NAO_REALIZADA = "6";
+
 
     public UsuarioDAO(Context mContext) {
         this.mContext = mContext;
@@ -47,6 +50,12 @@ public class UsuarioDAO {
         urlRequest = "http://obichoebom.azurewebsites.net/user/getusersrelated.php?email="+email;
         Log.v("URL PEGA USUARIOS", urlRequest);
         new BackgroundTaskForRetrievingData().execute(urlRequest);
+    }
+
+    public void enviaLocalizacao(String id, String x, String y)
+    {
+        urlRequest = "http://obichoebom.azurewebsites.net/user/getusersrelated.php?id="+id+"&x="+x+"&y="+y;
+        new BackgroundTaskForSendingLocation().execute(urlRequest);
     }
 
     private class BackgroundTaskForValidation extends AsyncTask<String, Void, String[]> {
@@ -81,6 +90,19 @@ public class UsuarioDAO {
         @Override
         protected void onPostExecute(Usuario usuario) {
             LoginActivity.carregaUsuario(usuario);
+        }
+    }
+
+    private class BackgroundTaskForSendingLocation extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            return Funcoes.getStringResponse(urls[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            //Enviar status pra algum lugar...
         }
     }
 }

@@ -41,19 +41,17 @@ public class MatchFragment extends Fragment {
 
         listMatch = (ListView) view.findViewById(R.id.match_fragment_list_solicitacoes);
         imgRefreashMatch = (ImageView) view.findViewById(R.id.match_fragment_img_solicitacoes);
-        if(sessao.getUsuario()!=null){
+        if(sessao.getUsuario()!= null){
             if (sessao.getUsuario().getContatos() != null){
                 contatos = Sessao.getInstancia().getUsuario().getContatos();
                 contatosAdapter = new UsuariosAdapter(getActivity(),contatos,true);
                 listContatos.setAdapter(contatosAdapter);
-            }else if(sessao.getUsuario().getSolicitacoes() != null){
+            } if(sessao.getUsuario().getSolicitacoes() != null){
                 solicitacoes = Sessao.getInstancia().getUsuario().getSolicitacoes();
                 solicitacoesAdapter = new UsuariosAdapter(getActivity(),solicitacoes,false);
                 listMatch.setAdapter(solicitacoesAdapter);
             }
         }
-
-
 
         return view;
     }

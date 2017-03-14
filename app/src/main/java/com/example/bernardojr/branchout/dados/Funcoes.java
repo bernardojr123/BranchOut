@@ -73,7 +73,7 @@ public class Funcoes {
 
             for (int i=1; i < usersArrayJson.length(); i++){
 
-                if(usersArrayJson.getJSONArray(i) != null) {
+                if(usersArrayJson.optJSONArray(i) != null) {
 
                     JSONArray jsonArray = usersArrayJson.getJSONArray(i);
 
@@ -91,8 +91,11 @@ public class Funcoes {
                         String meiosdecontato = userJson.getString("meiosdecontato");
                         String idiomas = userJson.getString("idiomas");
                         String imagem = userJson.getString("imagem");
+                        String x = userJson.getString("x");
+                        String y = userJson.getString("y");
+                        String ultimaLocalizacao = userJson.getString("ultimaLocalizacao");
                         usersArrayList.add(new Usuario(id, imagem, nome, senha, email, datanasc,
-                                descricao, meiosdecontato, idiomas, null, null));
+                                descricao, meiosdecontato, idiomas,x, y, ultimaLocalizacao, null, null));
                     }
                     users.add(usersArrayList);
                 }
@@ -103,7 +106,8 @@ public class Funcoes {
                     userJsonn.getString("nome"), userJsonn.getString("senha"),
                     userJsonn.getString("email"),userJsonn.getString("datanasc"),
                     userJsonn.getString("descricao"), userJsonn.getString("meiosdecontato"),
-                    userJsonn.getString("idiomas"), users.get(0), users.get(1));
+                    userJsonn.getString("idiomas"), userJsonn.getString("x"), userJsonn.getString("y"),
+                    userJsonn.getString("ultimaLocalizacao"), users.get(0), users.get(1));
 
         } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the user JSON results", e);
