@@ -10,14 +10,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Funcoes {
@@ -54,13 +61,14 @@ public class Funcoes {
         return extractUsers(jsonResponse);
     }
 
-    public static String getStringResponse(String requestURL)
+    public static String getStringResponse(String requestURL, HashMap<String, String> params)
     {
         URL url = createUrl(requestURL);
 
         String jsonResponse = null;
         try {
-            jsonResponse = makeHttpGETRequest(url);
+//            jsonResponse = makeHttpGETRequest(url);
+            jsonResponse = (params == null) ? makeHttpGETRequest(url) : makeHttpPOSTRequest(url, params);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
@@ -209,6 +217,67 @@ public class Funcoes {
                 inputStream.close();
         }
         return jsonResponse;
+    }
+
+    private static String makeHttpPOSTRequest(URL url, HashMap params) throws IOException {
+        String jsonResponse = "";
+
+        if(url == null)
+            return jsonResponse;
+
+        HttpURLConnection httpURLConnection = null;
+        InputStream inputStream = null;
+        try{
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setReadTimeout(10000);
+            httpURLConnection.setConnectTimeout(15000);
+            httpURLConnection.setRequestMethod("POST");
+
+            OutputStream os = httpURLConnection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(params));
+
+            writer.flush();
+            writer.close();
+            os.close();
+
+
+            httpURLConnection.connect();
+
+            if (httpURLConnection.getResponseCode() == 200) {
+                inputStream = httpURLConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            } else {
+                Log.e(LOG_TAG, "Error response code: " + httpURLConnection.getResponseCode());
+            }
+        }catch(IOException e){
+            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+        }finally{
+            if(httpURLConnection != null)
+                httpURLConnection.disconnect();
+            else
+                inputStream.close();
+        }
+        return jsonResponse;
+    }
+
+
+    private static String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for(Map.Entry<String, String> entry : params.entrySet()){
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        }
+
+        return result.toString();
     }
 
     private static String readFromStream(InputStream inputStream) throws IOException {

@@ -11,6 +11,7 @@ import com.example.bernardojr.branchout.gui.MatchFragment;
 import com.example.bernardojr.branchout.gui.UsuariosFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UsuarioDAO {
 
@@ -38,12 +39,24 @@ public class UsuarioDAO {
 
     public void validaCadastro(String email, String senha, String nome, String dataNasc,String descricao, String meiosDecontato, String idiomas, String imagem)
     {
-        urlRequest = "http://obichoebom.azurewebsites.net/user/useradd.php?email="+email+"&senha="+
-                senha+"&nome="+nome+"&datanasc="+dataNasc+"&descricao="+descricao+"&meiosdecontato="+
-                meiosDecontato+"&idiomas="+idiomas+"&imagem="+imagem;
+        //        urlRequest = "http://obichoebom.azurewebsites.net/user/useradd.php?email="+email+"&senha="+
+//                senha+"&nome="+nome+"&datanasc="+dataNasc+"&descricao="+descricao+"&meiosdecontato="+
+//                meiosDecontato+"&idiomas="+idiomas+"&imagem="+imagem;
+
+        urlRequest = "http://obichoebom.azurewebsites.net/user/useradd.php";
+        HashMap<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("senha", senha);
+        params.put("nome", nome);
+        params.put("datanasc", dataNasc);
+        params.put("descricao", descricao);
+        params.put("meiosdecontato", meiosDecontato);
+        params.put("idiomas", idiomas);
+        params.put("imagem", imagem);
 
         Log.v("URL COMPLETA", urlRequest);
-        new BackgroundTask().execute("cadastro", urlRequest);
+//        new BackgroundTask().execute("cadastro", urlRequest);
+        new BackgroundTaskPost(params).execute(urlRequest);
     }
 
     public void enviaLocalizacao(String id, String x, String y)
@@ -77,8 +90,8 @@ public class UsuarioDAO {
         protected String[] doInBackground(String... urls) {
             String[] response = new String[2];
             response[0] = urls[0];
-            response[1] = Funcoes.getStringResponse(urls[1]);
-
+//            response[1] = Funcoes.getStringResponse(urls[1]);
+            response[1] = Funcoes.getStringResponse(urls[1], null);
             return response;
         }
 
@@ -129,6 +142,24 @@ public class UsuarioDAO {
         @Override
         protected void onPostExecute(ArrayList<Usuario> usuarios) {
             UsuariosFragment.carregarUsuarios(usuarios, context);
+        }
+    }
+
+    private class BackgroundTaskPost extends AsyncTask<String, Void, String> {
+        private HashMap<String, String> params;
+
+        public BackgroundTaskPost(HashMap<String, String> params) {
+            this.params = params;
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            return  Funcoes.getStringResponse(urls[0], this.params);
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            CadastroActivity.mostraMensagem(response);
         }
     }
 }
