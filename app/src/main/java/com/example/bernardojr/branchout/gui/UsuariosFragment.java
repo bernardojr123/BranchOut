@@ -44,7 +44,7 @@ public class UsuariosFragment extends Fragment{
     private ImageView imgRefresh;
     private LocationManager locationManager;
     private Location currentPosition;
-    private ListView listView;
+    private static ListView listView;
     private UsuariosAdapter usuariosAdapter;
     private static ArrayList<Usuario> usuarios = new ArrayList<>();
     private UsuarioDAO usuarioDAO;
@@ -52,29 +52,21 @@ public class UsuariosFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_usuarios,container,false);
-        usuarioDAO = new UsuarioDAO();
+        usuarioDAO = new UsuarioDAO(getActivity());
         imgRefresh = (ImageView) view.findViewById(R.id.fragment_acitivty_img_refresh);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         listView = (ListView) view.findViewById(R.id.fragment_acitivty_list_usuarios);
         toggleNetworkUpdates();
 
 
-/*        imgRefresh.setOnClickListener(new View.OnClickListener() {
+        imgRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                usuarioDAO = new UsuarioDAO(getActivity());
                 usuarioDAO.pegaUsuarios(Sessao.getInstancia().getUsuario().getId());
 
-                if(Sessao.getInstancia().getUsuariosProximos().size() != 0){
-                    usuariosAdapter = new UsuariosAdapter(getActivity(),limparPorProximidade(Sessao.getInstancia().getUsuariosProximos()),false);
-                    listView.setAdapter(usuariosAdapter);
-                    Toast.makeText(getActivity(),"foi",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getActivity(),"nao foi",Toast.LENGTH_SHORT).show();
-                }
-
             }
-        });*/
+        });
         return view;
     }
 
@@ -163,20 +155,14 @@ public class UsuariosFragment extends Fragment{
         super.onAttach(context);
     }
 
-    public static void carregarUsuarios(ArrayList<Usuario> usus){
-
-        for (int j = 0; j < usus.size(); j++){
-            Sessao.getInstancia().setUsuariosProximos(usus);
-            usuarios.add(usus.get(j));
-        }
-        ArrayList<Usuario> a = Sessao.getInstancia().getUsuariosProximos();
+    public static void carregarUsuarios(ArrayList<Usuario> usus, Context context){
+        UsuariosAdapter.getInstancia().setContext(context);
+        UsuariosAdapter.getInstancia().setUsuarios(limparPorProximidade(usus));
+        UsuariosAdapter.getInstancia().setContato(false);
+        listView.setAdapter(UsuariosAdapter.getInstancia());
     }
 
-    private static ArrayList<Usuario> getUsuarios(){
-        return usuarios;
-    }
-
-    private ArrayList<Usuario> limparPorProximidade(ArrayList<Usuario> usuarios){
+    private  static ArrayList<Usuario> limparPorProximidade(ArrayList<Usuario> usuarios){
         ArrayList<Usuario> usuariosFiltrados = new ArrayList<>();
         if (usuarios.size() != 0){
             for (int i=0; i < usuarios.size(); i++){
@@ -186,9 +172,12 @@ public class UsuariosFragment extends Fragment{
                     String x = usuario1.getX();
                     String y = usuario1.getY();
                     String hr = usuario1.getUltimaLocalizacao();
-                    Date dataHora = stringToDate(hr);
-                    if(calcularDistancia(x,y) && calcularTempo(dataHora)){
-                        usuariosFiltrados.add(usuario1);
+                    if(x != "null" && y != "null" && hr != "null"){
+                        Date dataHora = stringToDate(hr);
+                        if(calcularDistancia(x,y) && calcularTempo(dataHora)){
+                            usuariosFiltrados.add(usuario1);
+                        }
+
                     }
 
                 }
@@ -197,7 +186,7 @@ public class UsuariosFragment extends Fragment{
         return usuariosFiltrados;
     }
 
-    private Date stringToDate(String hr){
+    private static Date stringToDate(String hr){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date data = new Date();
         try {
@@ -208,7 +197,7 @@ public class UsuariosFragment extends Fragment{
         return data;
     }
 
-    private boolean calcularDistancia(String x, String y){
+    private static boolean calcularDistancia(String x, String y){
         Location localOutro = new Location("");
         Location localUsuario = new Location("");
         localOutro.setLatitude(Double.parseDouble(y));
@@ -216,13 +205,13 @@ public class UsuariosFragment extends Fragment{
         localUsuario.setLongitude(Double.parseDouble(Sessao.getInstancia().getUsuario().getX()));
         localUsuario.setLatitude(Double.parseDouble(Sessao.getInstancia().getUsuario().getY()));
         float distanceInMeters =  localUsuario.distanceTo(localOutro);
-        if (distanceInMeters < 300){
+        if (distanceInMeters < 1500.0){
             return true;
         }
         return false;
     }
 
-    private boolean calcularTempo(Date dataOutro){
+    private static boolean calcularTempo(Date dataOutro){
         Date dataOutroNova;
 
         Calendar cal = Calendar.getInstance(); // creates calendar
@@ -238,7 +227,7 @@ public class UsuariosFragment extends Fragment{
         return false;
     }
 
-    public long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
         long diffInMillies = date2.getTime() - date1.getTime();
         return timeUnit.convert(diffInMillies,TimeUnit.MINUTES);
     }

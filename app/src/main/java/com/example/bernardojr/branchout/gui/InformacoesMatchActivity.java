@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.bernardojr.branchout.R;
 import com.example.bernardojr.branchout.dados.Sessao;
+import com.example.bernardojr.branchout.dados.UsuarioDAO;
 import com.example.bernardojr.branchout.dominio.Usuario;
 
 import java.text.ParseException;
@@ -39,6 +40,7 @@ public class InformacoesMatchActivity extends AppCompatActivity {
     private String nomeCompleto;
     private Date dataNascimento;
     private String idiomas;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +61,16 @@ public class InformacoesMatchActivity extends AppCompatActivity {
         btnAceitar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                UsuarioDAO usuarioDAO = new UsuarioDAO(getBaseContext());
+                usuarioDAO.match(Sessao.getInstancia().getUsuario().getId(),id,"A");
+                finish();
             }
         });
 
         btnRecusar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
     }
@@ -119,6 +123,7 @@ public class InformacoesMatchActivity extends AppCompatActivity {
     }
 
     private void pegarExtras(){
+        id = getIntent().getStringExtra("ID");
         nomeCompleto = getIntent().getStringExtra("NOME");
         descricao = getIntent().getStringExtra("DESCRICAO");
         idiomas = getIntent().getStringExtra("IDIOMAS");

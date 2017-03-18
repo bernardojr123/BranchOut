@@ -14,7 +14,12 @@ import java.util.ArrayList;
 
 public class UsuarioDAO {
 
+    private Context context;
     private String urlRequest;
+
+    public UsuarioDAO(Context context) {
+        this.context = context;
+    }
 
     public static final String SUCESSO_USUARIO_CADASTRADO = "0";
     public static final String ERRO_USUARIO_JA_CADASTRADO = "1";
@@ -115,6 +120,7 @@ public class UsuarioDAO {
 
     private class BackgroundTaskForRetrievingAllUsersData extends AsyncTask<String, Void, ArrayList<Usuario>> {
 
+
         @Override
         protected ArrayList<Usuario> doInBackground(String... urls) {
             return Funcoes.fetchAllUsersData(urls[0]);
@@ -122,8 +128,7 @@ public class UsuarioDAO {
 
         @Override
         protected void onPostExecute(ArrayList<Usuario> usuarios) {
-            ArrayList<Usuario> a = usuarios;
-            UsuariosFragment.carregarUsuarios(usuarios);
+            UsuariosFragment.carregarUsuarios(usuarios, context);
         }
     }
 }

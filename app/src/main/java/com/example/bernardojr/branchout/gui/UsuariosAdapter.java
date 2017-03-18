@@ -23,12 +23,43 @@ public class UsuariosAdapter extends BaseAdapter {
     private Context context;
     private List<Usuario> usuarios;
     private Boolean contato;
+    private static UsuariosAdapter instancia = new UsuariosAdapter();
 
     public UsuariosAdapter(Context context, List<Usuario> usuarios,Boolean contato) {
         this.context = context;
         this.usuarios = usuarios;
         this.contato = contato;
     }
+    public UsuariosAdapter(){}
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public Boolean getContato() {
+        return contato;
+    }
+
+    public void setContato(Boolean contato) {
+        this.contato = contato;
+    }
+
+    public static UsuariosAdapter getInstancia() {
+        return instancia;
+    }
+
 
     @Override
     public int getCount() {
@@ -69,6 +100,7 @@ public class UsuariosAdapter extends BaseAdapter {
                 String data = sdf.format(((Usuario) getItem(position)).getDataNascimento());
                 if(contato == true){
                     Intent it = new Intent(context,InformacoesContatoActivity.class);
+                    it.putExtra("ID",((Usuario) getItem(position)).getId());
                     it.putExtra("NOME",((Usuario) getItem(position)).getNome());
                     it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao());
                     it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas());
@@ -81,6 +113,7 @@ public class UsuariosAdapter extends BaseAdapter {
                 }
                 else{
                     Intent it = new Intent(context,InformacoesMatchActivity.class);
+                    it.putExtra("ID",((Usuario) getItem(position)).getId());
                     it.putExtra("NOME",((Usuario) getItem(position)).getNome());
                     it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao());
                     it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas());

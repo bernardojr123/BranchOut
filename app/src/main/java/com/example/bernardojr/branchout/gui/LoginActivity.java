@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validarCampos()) {
-                    UsuarioDAO usuarioDAO = new UsuarioDAO();
+                    UsuarioDAO usuarioDAO = new UsuarioDAO(getBaseContext());
                     usuarioDAO.validaLogin(email, senha);
                 }
             }
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
     public static void mostraMensagem(String response) {
         if(response.equals(UsuarioDAO.SUCESSO_LOGIN_E_SENHA_CORRETOS))
         {
-            UsuarioDAO usuaDao = new UsuarioDAO();
+            UsuarioDAO usuaDao = new UsuarioDAO(mContext);
             usuaDao.pegaUsuario(sEmail,"0");
             response = "Bem-vindo!";
         }

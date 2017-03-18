@@ -78,7 +78,7 @@ public class MatchFragment extends Fragment {
     }
 
     private void atualizaListagens(){
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        UsuarioDAO usuarioDAO = new UsuarioDAO(getActivity());
         usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
         contatos = Sessao.getInstancia().getUsuario().getContatos();
         solicitacoes = Sessao.getInstancia().getUsuario().getSolicitacoes();
