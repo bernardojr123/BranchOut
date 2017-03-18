@@ -47,6 +47,14 @@ public class Usuario {
         this.contatos = contatos;
     }
 
+    public String getImagemString() {
+        return imagemString;
+    }
+
+    public void setImagemString(String imagemString) {
+        this.imagemString = imagemString;
+    }
+
     public String getId() {
         return id;
     }

@@ -80,12 +80,16 @@ public class MatchFragment extends Fragment {
     private void atualizaListagens(){
         UsuarioDAO usuarioDAO = new UsuarioDAO(getActivity());
         usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
-        contatos = Sessao.getInstancia().getUsuario().getContatos();
-        solicitacoes = Sessao.getInstancia().getUsuario().getSolicitacoes();
-        contatosAdapter = new UsuariosAdapter(getActivity(),contatos,true);
-        listContatos.setAdapter(contatosAdapter);
-        solicitacoesAdapter = new UsuariosAdapter(getActivity(),solicitacoes,false);
-        listMatch.setAdapter(solicitacoesAdapter);
+
+        if (sessao.getUsuario().getContatos() != null){
+            contatos = Sessao.getInstancia().getUsuario().getContatos();
+            contatosAdapter = new UsuariosAdapter(getActivity(),contatos,true);
+            listContatos.setAdapter(contatosAdapter);
+        } if(sessao.getUsuario().getSolicitacoes() != null){
+            solicitacoes = Sessao.getInstancia().getUsuario().getSolicitacoes();
+            solicitacoesAdapter = new UsuariosAdapter(getActivity(),solicitacoes,false);
+            listMatch.setAdapter(solicitacoesAdapter);
+        }
     }
 
     public static void carregaUsuario(Usuario usuario){

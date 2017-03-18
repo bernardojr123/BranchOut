@@ -100,7 +100,8 @@ public class CadastroActivity extends AppCompatActivity {
                     fotoBd = fotoBd.replace("=",",");
 
                     UsuarioDAO usuarioDAO = new UsuarioDAO(getBaseContext());
-                    usuarioDAO.validaCadastro(email,senha,nome,data, descricao,meiosContato, idiomas, "porFoto");
+                    usuarioDAO.validaCadastro(email,senha,nome.replace(" ","%20"),data, descricao.replace(" ","%20"),
+                            meiosContato.replace(" ","%20"), idiomas.replace(" ","%20"), fotoBd);
 
 
                 }
@@ -203,8 +204,7 @@ public class CadastroActivity extends AppCompatActivity {
         try {
             dataNascimento = formatter.parse(edtDataNascimento.getText().toString());
         } catch (ParseException e) {
-            //Toast toast = Toast.makeText(mContext, R.string.erro_data_formato_errado, Toast.LENGTH_SHORT);
-            //toast.show();
+            //Toast toast = Toast.makeText(mContext, R.string.erro_data_formato_errado, Toast.LENGTH_SHORT).show();
             //return false;
         }
         dataN = edtDataNascimento.getText().toString();
@@ -290,7 +290,7 @@ public class CadastroActivity extends AppCompatActivity {
     public static void mostraMensagem(String response) {
         int resposta;
         if(response.equals(UsuarioDAO.SUCESSO_USUARIO_CADASTRADO)){
-            Intent intent = new Intent(mContext, HomeActivity.class);
+            Intent intent = new Intent(mContext, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
             resposta = R.string.cadastro_activity_saudacao;

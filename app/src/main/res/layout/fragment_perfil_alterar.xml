@@ -101,6 +101,17 @@
             android:hint="@string/cadastro_activity_hint_descricao"
             android:id="@+id/perfil_fragment_descricao"
             android:maxLines="1"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cadastro_activity_idiomas"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cadastro_activity_hint_idiomas"
+            android:id="@+id/perfil_fragment_idiomas"
+            android:maxLines="4"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

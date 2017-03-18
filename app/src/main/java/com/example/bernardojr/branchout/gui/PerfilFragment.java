@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,14 +45,17 @@ public class PerfilFragment extends Fragment {
     private EditText edtData;
     private EditText edtMeioContato;
     private EditText edtDescricao;
+    private EditText edtIdiomas;
     private Button btnProx;
     private Button btnVoltar;
+
 
     private String nome;
     private String dataN;
     private Date dataNascimento;
     private String meiosContato;
     private String descricao;
+    private String idiomas;
 
     private int ano;
     private int mes;
@@ -65,9 +71,7 @@ public class PerfilFragment extends Fragment {
         initView(rootView);
         telaDefault();
 
-        Usuario usuario2 = Sessao.getInstancia().getUsuario();
         if (Sessao.getInstancia().getUsuario() != null) {
-            Usuario usuario = Sessao.getInstancia().getUsuario();
             preencherCampos(Sessao.getInstancia().getUsuario());
         }
         return rootView;
@@ -95,6 +99,7 @@ public class PerfilFragment extends Fragment {
         edtData.setEnabled(true);
         edtMeioContato.setEnabled(true);
         edtDescricao.setEnabled(true);
+        edtIdiomas.setEnabled(true);
     }
 
     private void travarEdicaoCampos(){
@@ -104,6 +109,7 @@ public class PerfilFragment extends Fragment {
         edtData.setEnabled(false);
         edtMeioContato.setEnabled(false);
         edtDescricao.setEnabled(false);
+        edtIdiomas.setEnabled(false);
     }
 
     private void telaEditar(){
@@ -142,14 +148,16 @@ public class PerfilFragment extends Fragment {
     }
 
     private void preencherCampos(Usuario usuario){
-        edtNome.setText(usuario.getNome());
+        edtNome.setText(usuario.getNome().replace("%20"," "));
         edtEmail.setText(usuario.getEmail());
-
+        byte[] decodedString = Base64.decode(usuario.getImagemString(), Base64.URL_SAFE | Base64.NO_WRAP);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imgFoto.setImageBitmap(decodedByte);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String data = sdf.format(usuario.getDataNascimento());
         edtData.setText(data);
-        edtMeioContato.setText(usuario.getMeiosDeContato());
-        edtDescricao.setText(usuario.getDescricao());
+        edtMeioContato.setText(usuario.getMeiosDeContato().replace("%20"," "));
+        edtDescricao.setText(usuario.getDescricao().replace("%20"," "));
     }
 
     private void telaDefault(){
@@ -175,6 +183,7 @@ public class PerfilFragment extends Fragment {
         edtData = (EditText) view.findViewById(R.id.perfil_fragment_data_nascimento);
         edtMeioContato = (EditText) view.findViewById(R.id.perfil_fragment_meios_contato);
         edtDescricao = (EditText) view.findViewById(R.id.perfil_fragment_descricao);
+        edtIdiomas = (EditText) view.findViewById(R.id.perfil_fragment_idiomas);
         btnVoltar = (Button) view.findViewById(R.id.perfil_fragment_btn_voltar);
         btnProx = (Button) view.findViewById(R.id.perfil_fragment_btn_prox);
     }
@@ -199,7 +208,7 @@ public class PerfilFragment extends Fragment {
         datepicker.show();
     }
 
-    private boolean temTamanhoValido(String nome, String meioContato, String descricao) {
+    private boolean temTamanhoValido(String nome, String meioContato, String descricao,String idioma) {
 
         if (!(nome.length() > 4)) {
             edtNome.requestFocus();
@@ -213,10 +222,13 @@ public class PerfilFragment extends Fragment {
             edtDescricao.requestFocus();
             edtDescricao.setError(getResources().getString(R.string.erro_descricao_curta));
             return false;
+        }else if (!(idioma.length()>10)){
+            edtIdiomas.requestFocus();
+            edtIdiomas.setError(getResources().getString(R.string.erro_idiomas_curto));
         }
         return true;
     }
-    private boolean validaCamposVazios(String nome, String dataNasc, String meioContato, String descricao) {
+    private boolean validaCamposVazios(String nome, String dataNasc, String meioContato, String descricao, String idiomas) {
         if (TextUtils.isEmpty(nome)) {
             edtNome.requestFocus();
             edtNome.setError(getResources().getString(R.string.erro_nome_vazio));
@@ -232,6 +244,10 @@ public class PerfilFragment extends Fragment {
         } else if (TextUtils.isEmpty(descricao)) {
             edtDescricao.requestFocus();
             edtDescricao.setError(getResources().getString(R.string.erro_descricao_vazia));
+            return false;
+        }else if(TextUtils.isEmpty(idiomas)) {
+            edtIdiomas.requestFocus();
+            edtIdiomas.setError(getResources().getString(R.string.erro_idiomas_vazio));
             return false;
         }
         return true;
@@ -249,8 +265,9 @@ public class PerfilFragment extends Fragment {
         nome = edtNome.getText().toString();
         meiosContato = edtMeioContato.getText().toString();
         descricao = edtDescricao.getText().toString();
+        idiomas = edtIdiomas.getText().toString();
 
-        return (validaCamposVazios(nome,dataN,meiosContato,descricao) &&
-                temTamanhoValido(nome,meiosContato,descricao));
+        return (validaCamposVazios(nome,dataN,meiosContato,descricao,idiomas) &&
+                temTamanhoValido(nome,meiosContato,descricao,idiomas));
     }
 }

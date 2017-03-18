@@ -2,6 +2,9 @@ package com.example.bernardojr.branchout.gui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,8 +93,10 @@ public class UsuariosAdapter extends BaseAdapter {
         TextView nomeUsuario = (TextView) convertView.findViewById(R.id.usuario_list_txt);
 
         nomeUsuario.setText(usuario.getNome());
-        //TODO: Ver como vai ficar essa imagem do usuario.
-        //imgUsuario.setText();
+        byte[] decodedString = Base64.decode(usuario.getImagemString(), Base64.URL_SAFE | Base64.NO_WRAP);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imgUsuario.setImageBitmap(decodedByte);
+
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +106,7 @@ public class UsuariosAdapter extends BaseAdapter {
                 if(contato == true){
                     Intent it = new Intent(context,InformacoesContatoActivity.class);
                     it.putExtra("ID",((Usuario) getItem(position)).getId());
+                    it.putExtra("FOTO",((Usuario) getItem(position)).getImagemString());
                     it.putExtra("NOME",((Usuario) getItem(position)).getNome());
                     it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao());
                     it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas());
@@ -114,6 +120,7 @@ public class UsuariosAdapter extends BaseAdapter {
                 else{
                     Intent it = new Intent(context,InformacoesMatchActivity.class);
                     it.putExtra("ID",((Usuario) getItem(position)).getId());
+                    it.putExtra("FOTO",((Usuario) getItem(position)).getImagemString());
                     it.putExtra("NOME",((Usuario) getItem(position)).getNome());
                     it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao());
                     it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas());

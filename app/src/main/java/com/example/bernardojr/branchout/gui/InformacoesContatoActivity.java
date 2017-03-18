@@ -1,8 +1,10 @@
 package com.example.bernardojr.branchout.gui;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ public class InformacoesContatoActivity extends AppCompatActivity {
     private Date dataNascimento;
     private String idiomas;
     private String contato;
+    private String fotoStr;
 
 
     @Override
@@ -78,6 +81,9 @@ public class InformacoesContatoActivity extends AppCompatActivity {
         }else{
             pNome = nomeCompleto;
         }
+        byte[] decodedString = Base64.decode(fotoStr, Base64.URL_SAFE | Base64.NO_WRAP);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imgFoto.setImageBitmap(decodedByte);
         txtPrimeiroNome.setText(pNome);
         //foto = (ImageView) findViewById(R.id.informacao_act_contato_foto);
         txtDescricao.setText(descricao);
@@ -107,6 +113,7 @@ public class InformacoesContatoActivity extends AppCompatActivity {
     }
 
     private void pegarExtras(){
+        fotoStr = getIntent().getStringExtra("FOTO");
         nomeCompleto = getIntent().getStringExtra("NOME");
         descricao = getIntent().getStringExtra("DESCRICAO");
         idiomas = getIntent().getStringExtra("IDIOMAS");

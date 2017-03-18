@@ -44,7 +44,7 @@
     <string name="cadastro_activity_hint_meios_de_contato">Whatsapp:(81)99999-9999</string>
     <string name="cadastro_activity_hint_idiomas">Português - Fluente, Inglês - Intermediário</string>
 
-    <string name="cadastro_activity_saudacao">Bem-vindo!</string>
+    <string name="cadastro_activity_saudacao">Sucesso ao cadastrar!</string>
 
     <!--  Login Activity  -->
     <string name="login_activity_email">Usuário:</string>

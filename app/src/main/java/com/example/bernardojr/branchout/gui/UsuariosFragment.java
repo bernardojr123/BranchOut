@@ -174,7 +174,7 @@ public class UsuariosFragment extends Fragment{
                     String hr = usuario1.getUltimaLocalizacao();
                     if(x != "null" && y != "null" && hr != "null"){
                         Date dataHora = stringToDate(hr);
-                        if(calcularDistancia(x,y) && calcularTempo(dataHora)){
+                        if(calcularTempo(dataHora) && calcularDistancia(x,y)){
                             usuariosFiltrados.add(usuario1);
                         }
 
