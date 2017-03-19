@@ -92,7 +92,7 @@ public class UsuariosAdapter extends BaseAdapter {
         ImageView imgUsuario = (ImageView) convertView.findViewById(R.id.usuario_list_img);
         TextView nomeUsuario = (TextView) convertView.findViewById(R.id.usuario_list_txt);
 
-        nomeUsuario.setText(usuario.getNome());
+        nomeUsuario.setText(usuario.getNome().replace("%20"," "));
         byte[] decodedString = Base64.decode(usuario.getImagemString(), Base64.URL_SAFE | Base64.NO_WRAP);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imgUsuario.setImageBitmap(decodedByte);
@@ -103,27 +103,24 @@ public class UsuariosAdapter extends BaseAdapter {
             public void onClick(View v) {
                 DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 String data = sdf.format(((Usuario) getItem(position)).getDataNascimento());
-                if(contato == true){
+                if(contato){
                     Intent it = new Intent(context,InformacoesContatoActivity.class);
                     it.putExtra("ID",((Usuario) getItem(position)).getId());
                     it.putExtra("FOTO",((Usuario) getItem(position)).getImagemString());
-                    it.putExtra("NOME",((Usuario) getItem(position)).getNome());
-                    it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao());
-                    it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas());
-                    it.putExtra("CONTATO",((Usuario) getItem(position)).getMeiosDeContato());
+                    it.putExtra("NOME",((Usuario) getItem(position)).getNome().replace("%20"," "));
+                    it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao().replace("%20"," "));
+                    it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas().replace("%20"," "));
+                    it.putExtra("CONTATO",((Usuario) getItem(position)).getMeiosDeContato().replace("%20"," "));
                     it.putExtra("DATA",data);
                     context.startActivity(it);
 
-
-
-                }
-                else{
+                }else{
                     Intent it = new Intent(context,InformacoesMatchActivity.class);
                     it.putExtra("ID",((Usuario) getItem(position)).getId());
                     it.putExtra("FOTO",((Usuario) getItem(position)).getImagemString());
-                    it.putExtra("NOME",((Usuario) getItem(position)).getNome());
-                    it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao());
-                    it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas());
+                    it.putExtra("NOME",((Usuario) getItem(position)).getNome().replace("%20"," "));
+                    it.putExtra("DESCRICAO",((Usuario) getItem(position)).getDescricao().replace("%20"," "));
+                    it.putExtra("IDIOMAS",((Usuario) getItem(position)).getIdiomas().replace("%20"," "));
                     it.putExtra("DATA",data);
                     context.startActivity(it);
                 }

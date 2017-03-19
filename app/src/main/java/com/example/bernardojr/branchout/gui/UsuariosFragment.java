@@ -62,9 +62,7 @@ public class UsuariosFragment extends Fragment{
         imgRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuarioDAO = new UsuarioDAO(getActivity());
                 usuarioDAO.pegaUsuarios(Sessao.getInstancia().getUsuario().getId());
-
             }
         });
         return view;
@@ -169,6 +167,7 @@ public class UsuariosFragment extends Fragment{
                 Usuario usuario1 = usuarios.get(i);
                 if (usuario1.getId() != Sessao.getInstancia().getUsuario().getId()
                         && usuario1.getX()!= null &&usuario1.getY()!= null && usuario1.getUltimaLocalizacao() != null){
+                    String e = usuario1.getEmail();
                     String x = usuario1.getX();
                     String y = usuario1.getY();
                     String hr = usuario1.getUltimaLocalizacao();
@@ -219,16 +218,16 @@ public class UsuariosFragment extends Fragment{
         cal.setTime(dataOutro); // sets calendar time/date
         cal.add(Calendar.HOUR_OF_DAY, -3); // adds one hour
         dataOutroNova = cal.getTime();
-        TimeUnit timeUnit = TimeUnit.MINUTES;
-        if(getDateDiff(dataOutroNova,agr,timeUnit) < 30){
+        if(getDateDiff(dataOutroNova,agr) < 30){
             return true;
         }
 
         return false;
     }
 
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+    public static long getDateDiff(Date date1, Date date2) {
         long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,TimeUnit.MINUTES);
+        long diffInMinutes = diffInMillies / (1000 * 60);
+        return diffInMinutes;
     }
 }

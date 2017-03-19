@@ -2,14 +2,12 @@ package com.example.bernardojr.branchout.gui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
 import com.example.bernardojr.branchout.dados.Sessao;
@@ -22,7 +20,7 @@ import java.util.List;
 public class MatchFragment extends Fragment {
 
     private ListView listContatos;
-    private ListView listMatch;
+    private ListView listSolicitacoes;
     private ImageView imgRefreshContato;
     private ImageView imgRefreashMatch;
     private UsuariosAdapter contatosAdapter;
@@ -41,7 +39,7 @@ public class MatchFragment extends Fragment {
         listContatos = (ListView) view.findViewById(R.id.match_fragment_list_contatos);
         imgRefreshContato = (ImageView) view.findViewById(R.id.match_fragment_img_contatos);
 
-        listMatch = (ListView) view.findViewById(R.id.match_fragment_list_solicitacoes);
+        listSolicitacoes = (ListView) view.findViewById(R.id.match_fragment_list_solicitacoes);
         imgRefreashMatch = (ImageView) view.findViewById(R.id.match_fragment_img_solicitacoes);
         if(sessao.getUsuario()!= null){
             if (sessao.getUsuario().getContatos() != null){
@@ -51,7 +49,7 @@ public class MatchFragment extends Fragment {
             } if(sessao.getUsuario().getSolicitacoes() != null){
                 solicitacoes = Sessao.getInstancia().getUsuario().getSolicitacoes();
                 solicitacoesAdapter = new UsuariosAdapter(getActivity(),solicitacoes,false);
-                listMatch.setAdapter(solicitacoesAdapter);
+                listSolicitacoes.setAdapter(solicitacoesAdapter);
             }
         }
 
@@ -80,6 +78,7 @@ public class MatchFragment extends Fragment {
     private void atualizaListagens(){
         UsuarioDAO usuarioDAO = new UsuarioDAO(getActivity());
         usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
+        Usuario a = Sessao.getInstancia().getUsuario();
 
         if (sessao.getUsuario().getContatos() != null){
             contatos = Sessao.getInstancia().getUsuario().getContatos();
@@ -88,7 +87,7 @@ public class MatchFragment extends Fragment {
         } if(sessao.getUsuario().getSolicitacoes() != null){
             solicitacoes = Sessao.getInstancia().getUsuario().getSolicitacoes();
             solicitacoesAdapter = new UsuariosAdapter(getActivity(),solicitacoes,false);
-            listMatch.setAdapter(solicitacoesAdapter);
+            listSolicitacoes.setAdapter(solicitacoesAdapter);
         }
     }
 

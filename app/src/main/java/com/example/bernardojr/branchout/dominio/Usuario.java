@@ -29,7 +29,7 @@ public class Usuario {
     private ArrayList<Usuario> solicitacoes;
     private ArrayList<Usuario> contatos;
 
-    public Usuario(String id, String imagemString, String nome, String senha, String email, String dataNString, String descricao, String meiosDeContato, String idiomas, String x, String y, String ultimaLocalizacao, ArrayList<Usuario> solicitacoes, ArrayList<Usuario> contatos) {
+    public Usuario(String id, String imagemString, String nome, String senha, String email, String dataNString, String descricao, String meiosDeContato, String idiomas, String x, String y, String ultimaLocalizacao,  ArrayList<Usuario> contatos, ArrayList<Usuario> solicitacoes) {
         this.id = id;
         this.imagemString = imagemString;
         this.nome = nome;
