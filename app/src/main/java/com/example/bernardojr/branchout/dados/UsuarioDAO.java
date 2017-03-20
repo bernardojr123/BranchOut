@@ -30,15 +30,13 @@ public class UsuarioDAO {
     public static final String SUCESSO_CONSULTA_REALIZADA = "5";
     public static final String ERRO_CONSULTA_NAO_REALIZADA = "6";
 
-    public void validaLogin(String email, String senha)
-    {
+    public void validaLogin(String email, String senha) {
         urlRequest = "http://obichoebom.azurewebsites.net/user/userlogin.php?email="+email+"&senha="+senha;
         Log.v("EMAIL E SENHA", email+senha);
         new BackgroundTask().execute("login", urlRequest);
     }
 
-    public void validaCadastro(String email, String senha, String nome, String dataNasc,String descricao, String meiosDecontato, String idiomas, String imagem)
-    {
+    public void validaCadastro(String email, String senha, String nome, String dataNasc,String descricao, String meiosDecontato, String idiomas, String imagem) {
         //        urlRequest = "http://obichoebom.azurewebsites.net/user/useradd.php?email="+email+"&senha="+
 //                senha+"&nome="+nome+"&datanasc="+dataNasc+"&descricao="+descricao+"&meiosdecontato="+
 //                meiosDecontato+"&idiomas="+idiomas+"&imagem="+imagem;
@@ -59,29 +57,33 @@ public class UsuarioDAO {
         new BackgroundTaskPost(params).execute(urlRequest);
     }
 
-    public void enviaLocalizacao(String id, String x, String y)
-    {
+    public void enviaLocalizacao(String id, String x, String y) {
         urlRequest = "http://obichoebom.azurewebsites.net/user/addlocation.php?id="+id+"&x="+x+"&y="+y;
         new BackgroundTask().execute("localizacao", urlRequest);
     }
 
-    public void pegaUsuario(String email, String vControle)
-    {
+    public void pegaUsuario(String email, String vControle) {
         urlRequest = "http://obichoebom.azurewebsites.net/user/getusersrelated.php?email="+email;
         Log.v("URL PEGA USUARIOS", urlRequest);
         new BackgroundTaskForRetrievingData(vControle).execute(urlRequest);
     }
 
-    public void pegaUsuarios(String id)
-    {
+    public void pegaUsuarios(String id) {
         urlRequest = "http://obichoebom.azurewebsites.net/user/getusers.php?id="+id;
         new BackgroundTaskForRetrievingAllUsersData().execute(urlRequest);
     }
 
-    public void match(String idUsuario, String idContato, String tipo /*  "A" para aceitar e enviar solicitação e N para negar  */)
-    {
+    public void match(String idUsuario, String idContato, String tipo /*  "A" para aceitar e enviar solicitação e N para negar  */) {
         urlRequest = "http://obichoebom.azurewebsites.net/user/match.php?idUsuario="+idUsuario+"&idContato="+idContato+"&tipo="+tipo;
         new BackgroundTask().execute("match", urlRequest);
+    }
+
+    public void atualizaUsuario(String id, String senha, String nome, String dataNasc,String descricao, String meiosDecontato, String idiomas, String imagem) {
+        urlRequest = "http://obichoebom.azurewebsites.net/user/userupdate.php?id="+id+"&senha="+
+                senha+"&nome="+nome+"&datanasc="+dataNasc+"&descricao="+descricao+"&meiosdecontato="+
+                meiosDecontato+"&idiomas="+idiomas+"&imagem="+imagem;
+
+        new BackgroundTask().execute("atualizaU", urlRequest);
     }
 
     private class BackgroundTask extends AsyncTask<String, Void, String[]> {
@@ -106,6 +108,8 @@ public class UsuarioDAO {
                 return;
             else if (response[0].equals("match"))
                 return;
+            else if(response[0].equals("atualizaU"))
+                return;  //Caso queira pode chamar um método utilizando a resposta como parâmetro
         }
     }
 

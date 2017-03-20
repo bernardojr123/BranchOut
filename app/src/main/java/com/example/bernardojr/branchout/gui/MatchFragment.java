@@ -79,7 +79,8 @@ public class MatchFragment extends Fragment {
         UsuarioDAO usuarioDAO = new UsuarioDAO(getActivity());
         usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
         Usuario a = Sessao.getInstancia().getUsuario();
-
+        listContatos.setAdapter(null);
+        listSolicitacoes.setAdapter(null);
         if (sessao.getUsuario().getContatos() != null){
             contatos = Sessao.getInstancia().getUsuario().getContatos();
             contatosAdapter = new UsuariosAdapter(getActivity(),contatos,true);

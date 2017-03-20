@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +25,10 @@ import android.widget.Toast;
 
 import com.example.bernardojr.branchout.R;
 import com.example.bernardojr.branchout.dados.Sessao;
+import com.example.bernardojr.branchout.dados.UsuarioDAO;
 import com.example.bernardojr.branchout.dominio.Usuario;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,6 +52,8 @@ public class PerfilFragment extends Fragment {
     private EditText edtIdiomas;
     private Button btnProx;
     private Button btnVoltar;
+    private EditText edtSenha;
+    private EditText edtRepetirSenha;
 
 
     private String nome;
@@ -60,6 +66,7 @@ public class PerfilFragment extends Fragment {
     private int ano;
     private int mes;
     private int dia;
+
 
     private SimpleDateFormat formatter;
 
@@ -100,6 +107,8 @@ public class PerfilFragment extends Fragment {
         edtMeioContato.setEnabled(true);
         edtDescricao.setEnabled(true);
         edtIdiomas.setEnabled(true);
+        edtSenha.setEnabled(true);
+        edtRepetirSenha.setEnabled(true);
     }
 
     private void travarEdicaoCampos(){
@@ -110,6 +119,8 @@ public class PerfilFragment extends Fragment {
         edtMeioContato.setEnabled(false);
         edtDescricao.setEnabled(false);
         edtIdiomas.setEnabled(false);
+        edtSenha.setEnabled(false);
+        edtRepetirSenha.setEnabled(false);
     }
 
     private void telaEditar(){
@@ -133,6 +144,8 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 telaDefault();
+                UsuarioDAO usuarioDAO = new UsuarioDAO(getActivity());
+                usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
                 preencherCampos(Sessao.getInstancia().getUsuario());
             }
         });
@@ -140,11 +153,36 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (validarCampos() == true){
-                    Toast.makeText(context,"foi",Toast.LENGTH_SHORT).show();
+                    UsuarioDAO usuarioDAO = new UsuarioDAO(getActivity());
+                    String id = Sessao.getInstancia().getUsuario().getId();
+                    String nome = edtNome.getText().toString();
+                    String data = edtData.getText().toString();
+                    String descricao = edtDescricao.getText().toString();
+                    String contato = edtMeioContato.getText().toString();
+                    String idioma = edtIdiomas.getText().toString();
+                    String foto = imgToBase64();
+                    String senha = edtSenha.getText().toString();
+                    usuarioDAO.atualizaUsuario(id,senha,nome.replace(" ","%20"),data,descricao.replace(" ","%20"),
+                            contato.replace(" ","%20"),idioma.replace(" ","%20"),foto);
                     telaDefault();
+                    usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
+                    preencherCampos(Sessao.getInstancia().getUsuario());
+                    Toast.makeText(getActivity(),"Atualizado com sucesso!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void limpaCampos(){
+        edtNome.setText(null);
+        edtEmail.setText(null);
+        imgFoto.setImageBitmap(null);
+        edtData.setText(null);
+        edtMeioContato.setText(null);
+        edtDescricao.setText(null);
+        edtIdiomas.setText(null);
+        edtSenha.setText(null);
+        edtRepetirSenha.setText(null);
     }
 
     private void preencherCampos(Usuario usuario){
@@ -158,10 +196,13 @@ public class PerfilFragment extends Fragment {
         edtData.setText(data);
         edtMeioContato.setText(usuario.getMeiosDeContato().replace("%20"," "));
         edtDescricao.setText(usuario.getDescricao().replace("%20"," "));
+        edtIdiomas.setText(usuario.getIdiomas().replace("%20"," "));
     }
 
     private void telaDefault(){
         travarEdicaoCampos();
+        edtSenha.setText(null);
+        edtRepetirSenha.setText(null);
         btnVoltar.setVisibility(View.INVISIBLE);
         btnProx.setText(R.string.fragment_perfil_btn_alterar);
         btnProx.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +218,8 @@ public class PerfilFragment extends Fragment {
         ano = calendar.get(Calendar.YEAR);
         mes = calendar.get(Calendar.MONTH);
         dia = calendar.get(Calendar.DAY_OF_MONTH);
+        edtSenha = (EditText) view.findViewById(R.id.perfil_fragment_senha);
+        edtRepetirSenha = (EditText) view.findViewById(R.id.perfil_fragment_repetir_senha);
         imgFoto = (ImageView) view.findViewById(R.id.perfil_fragment_img_foto);
         edtNome = (EditText) view.findViewById(R.id.perfil_fragment_nome);
         edtEmail = (EditText) view.findViewById(R.id.perfil_fragment_email);
@@ -208,7 +251,7 @@ public class PerfilFragment extends Fragment {
         datepicker.show();
     }
 
-    private boolean temTamanhoValido(String nome, String meioContato, String descricao,String idioma) {
+    private boolean temTamanhoValido(String nome, String meioContato, String descricao,String idioma, String senha,String reSenha) {
 
         if (!(nome.length() > 4)) {
             edtNome.requestFocus();
@@ -225,10 +268,14 @@ public class PerfilFragment extends Fragment {
         }else if (!(idioma.length()>10)){
             edtIdiomas.requestFocus();
             edtIdiomas.setError(getResources().getString(R.string.erro_idiomas_curto));
+        }else if (!(senha.equals(reSenha)) && !(senha.length()>4)){
+            edtRepetirSenha.requestFocus();
+            edtRepetirSenha.setError(getResources().getString(R.string.erro_senhas_nao_correspondem));
+            return false;
         }
         return true;
     }
-    private boolean validaCamposVazios(String nome, String dataNasc, String meioContato, String descricao, String idiomas) {
+    private boolean validaCamposVazios(String nome, String dataNasc, String meioContato, String descricao, String idiomas, String senha) {
         if (TextUtils.isEmpty(nome)) {
             edtNome.requestFocus();
             edtNome.setError(getResources().getString(R.string.erro_nome_vazio));
@@ -249,7 +296,11 @@ public class PerfilFragment extends Fragment {
             edtIdiomas.requestFocus();
             edtIdiomas.setError(getResources().getString(R.string.erro_idiomas_vazio));
             return false;
-        }
+        }else if (TextUtils.isEmpty(senha)) {
+            edtSenha.requestFocus();
+            edtSenha.setError(getResources().getString(R.string.erro_senha_vazia));
+            return false;}
+
         return true;
     }
 
@@ -266,8 +317,30 @@ public class PerfilFragment extends Fragment {
         meiosContato = edtMeioContato.getText().toString();
         descricao = edtDescricao.getText().toString();
         idiomas = edtIdiomas.getText().toString();
+        String senha = edtSenha.getText().toString();
+        String reSenha = edtRepetirSenha.getText().toString();
 
-        return (validaCamposVazios(nome,dataN,meiosContato,descricao,idiomas) &&
-                temTamanhoValido(nome,meiosContato,descricao,idiomas));
+        return (validaCamposVazios(nome,dataN,meiosContato,descricao,idiomas,senha) &&
+                temTamanhoValido(nome,meiosContato,descricao,idiomas,senha,reSenha) && naoTemEspaco(senha));
+    }
+
+    private boolean naoTemEspaco(String senha) {
+
+        if (senha.contains(" ")){
+            edtSenha.requestFocus();
+            edtSenha.setError(getResources().getString(R.string.erro_senha_invalida));
+            return false;
+        }return true;
+    }
+
+    private String imgToBase64(){
+        Bitmap bitmap = ((BitmapDrawable)imgFoto.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+
+        String foto = Base64.encodeToString(b,Base64.URL_SAFE | Base64.NO_WRAP);
+        Log.e("FOTO", foto);
+        return foto;
     }
 }

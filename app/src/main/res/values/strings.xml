@@ -13,7 +13,7 @@
     <string name="erro_meios_de_contato_vazio">Contato obrigatório!</string>
     <string name="erro_idiomas_vazio">Idioma(s) obrigatório(s)!</string>
     <string name="erro_foto_vazia">É necessário tirar uma foto!</string>
-    <string name="erro_senhas_nao_correspondem">Senhas não batem!</string>
+    <string name="erro_senhas_nao_correspondem">Senhas não batem ou muito curta!</string>
     <string name="erro_nome_curto">Nome com menos de 4 letras!</string>
     <string name="erro_meio_contato_curto">Meio(s) de contato muito curto!</string>
     <string name="erro_descricao_curta">Descrição muito curta!</string>

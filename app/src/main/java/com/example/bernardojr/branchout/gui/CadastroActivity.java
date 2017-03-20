@@ -251,7 +251,7 @@ public class CadastroActivity extends AppCompatActivity {
     private boolean temTamanhoValido(String nome, String senha, String reSenha,
                                      String meioContato, String descricao,String idioma) {
 
-        if (!(senha.equals(reSenha))){
+        if (!(senha.equals(reSenha)) && !(senha.length()>4)){
             edtRepetirSenha.requestFocus();
             edtRepetirSenha.setError(resources.getString(R.string.erro_senhas_nao_correspondem));
             return false;
