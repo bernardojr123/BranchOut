@@ -76,7 +76,9 @@ public class InformacoesMatchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 UsuarioDAO usuarioDAO = new UsuarioDAO(getBaseContext());
-                usuarioDAO.match(Sessao.getInstancia().getUsuario().getId(),id,"N");
+                String id1 = id;
+                String id2 = Sessao.getInstancia().getUsuario().getId();
+                usuarioDAO.match(id,Sessao.getInstancia().getUsuario().getId(),"N");
                 finish();
             }
         });

@@ -62,6 +62,7 @@ public class UsuariosFragment extends Fragment{
         imgRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                listView.setAdapter(null);
                 Usuario a = Sessao.getInstancia().getUsuario();
                 usuarioDAO.pegaUsuarios(Sessao.getInstancia().getUsuario().getId());
             }

@@ -71,11 +71,14 @@ public class PerfilFragment extends Fragment {
     private SimpleDateFormat formatter;
 
     private Context context;
+    private static Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_perfil_alterar, container, false);
         initView(rootView);
+        mContext = getActivity();
+        Usuario a = Sessao.getInstancia().getUsuario();
         telaDefault();
 
         if (Sessao.getInstancia().getUsuario() != null) {
@@ -157,17 +160,33 @@ public class PerfilFragment extends Fragment {
                     String id = Sessao.getInstancia().getUsuario().getId();
                     String nome = edtNome.getText().toString();
                     String data = edtData.getText().toString();
+                    try {
+                        dataNascimento = formatter.parse(data);
+                    } catch (ParseException e) {
+                        Toast.makeText(getActivity(), R.string.erro_data_formato_errado, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String dataFinal;
+                    try{
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        dataFinal = (sdf.format(dataNascimento));
+                    }catch (Exception e){
+                        Log.i("erro data",e.toString());
+                        Toast toast = Toast.makeText(getActivity(), R.string.erro_data_formato_errado, Toast.LENGTH_SHORT);
+                        toast.show();
+                        return;
+                    }
                     String descricao = edtDescricao.getText().toString();
                     String contato = edtMeioContato.getText().toString();
                     String idioma = edtIdiomas.getText().toString();
                     String foto = imgToBase64();
                     String senha = edtSenha.getText().toString();
-                    usuarioDAO.atualizaUsuario(id,senha,nome.replace(" ","%20"),data,descricao.replace(" ","%20"),
+                    usuarioDAO.atualizaUsuario(id,senha,nome.replace(" ","%20"),dataFinal,descricao.replace(" ","%20"),
                             contato.replace(" ","%20"),idioma.replace(" ","%20"),foto);
-                    telaDefault();
                     usuarioDAO.pegaUsuario(Sessao.getInstancia().getUsuario().getEmail(),"1");
                     preencherCampos(Sessao.getInstancia().getUsuario());
                     Toast.makeText(getActivity(),"Atualizado com sucesso!",Toast.LENGTH_SHORT).show();
+                    telaDefault();
                 }
             }
         });
